@@ -15,11 +15,10 @@ namespace SpectatorDisabler
             // disable RespawnPatch of EXILED framework
             EventPlugin.RespawnPatchDisable = true;
 
-            Log.Debug("Setting up MTFRespawn patches");
-
             HarmonyInstance = HarmonyInstance.Create($"{getName}{_harmonyCounter++}");
 
             // setup patch for compiler generated _Update() method of MTFRespawn with transpiler
+            Log.Debug("Setting up _Update() patch");
             var originalUpdateType = AccessTools.Inner(typeof(MTFRespawn), "<_Update>d__21");
             var originalUpdateMoveNextMethod = AccessTools.Method(originalUpdateType, "MoveNext");
             var transpiler = typeof(MTFRespawn_UpdatePatch).GetMethod(nameof(MTFRespawn_UpdatePatch.Transpiler));
@@ -27,9 +26,10 @@ namespace SpectatorDisabler
             HarmonyInstance.Patch(originalUpdateMoveNextMethod, transpiler: new HarmonyMethod(transpiler));
 
             // setup patch for RespawnDeadPlayers() of MTFRespawn
-            var originalRespawn = typeof(MTFRespawn).GetMethod(nameof(MTFRespawn.RespawnDeadPlayers));
-            var respawnPrefix =
-                typeof(MTFRespawnRespawnDeadPlayersPatch).GetMethod(nameof(MTFRespawnRespawnDeadPlayersPatch.Prefix));
+            Log.Debug("Setting up RespawnDeadPlayers() patch");
+            var originalRespawn = AccessTools.Method(typeof(MTFRespawn), nameof(MTFRespawn.RespawnDeadPlayers));
+            var respawnPrefix = AccessTools.Method(typeof(MTFRespawnRespawnDeadPlayersPatch),
+                nameof(MTFRespawnRespawnDeadPlayersPatch.Prefix));
 
             HarmonyInstance.Patch(originalRespawn, new HarmonyMethod(respawnPrefix));
 
