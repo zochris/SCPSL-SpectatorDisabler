@@ -6,9 +6,11 @@ namespace SpectatorDisabler
 {
     public class Plugin : EXILED.Plugin
     {
+        private static int _harmonyCounter;
         private EventHandler _eventHandler;
         private static HarmonyInstance HarmonyInstance { get; set; }
-        private static int _harmonyCounter;
+
+        public override string getName { get; } = "io.github.zochris.SpectatorDisabler";
 
         public override void OnEnable()
         {
@@ -45,9 +47,7 @@ namespace SpectatorDisabler
             EventPlugin.RespawnPatchDisable = false;
 
             if (HarmonyInstance != null || HarmonyInstance != default)
-            {
                 HarmonyInstance.UnpatchAll();
-            }
 
             Events.PlayerDeathEvent -= _eventHandler.OnPlayerDeathEvent;
 
@@ -58,7 +58,5 @@ namespace SpectatorDisabler
         public override void OnReload()
         {
         }
-
-        public override string getName { get; } = "io.github.zochris.SpectatorDisabler";
     }
 }
