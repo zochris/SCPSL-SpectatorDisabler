@@ -35,6 +35,15 @@ namespace SpectatorDisabler
 
             HarmonyInstance.Patch(originalRespawn, new HarmonyMethod(respawnPrefix));
 
+            // setup patch for CallCmdRecallPlayer() of Scp049PlayerScript
+            Log.Debug("Setting up CallCmdRecallPlayer() patch");
+            var originalRecallPlayer =
+                AccessTools.Method(typeof(Scp049PlayerScript), nameof(Scp049PlayerScript.CallCmdRecallPlayer));
+            var transpilerRecallPlayer = AccessTools.Method(typeof(Scp049PlayerScriptCallCmdRecallPlayerPatch),
+                nameof(Scp049PlayerScriptCallCmdRecallPlayerPatch.Transpiler));
+
+            HarmonyInstance.Patch(originalRecallPlayer, transpiler: new HarmonyMethod(transpilerRecallPlayer));
+
             Log.Debug("Setting up event handler");
             _eventHandler = new EventHandler();
             Events.PlayerDeathEvent += _eventHandler.OnPlayerDeathEvent;

@@ -64,6 +64,7 @@
     <Compile Include="EventHandler.cs" />
     <Compile Include="Patches\MTFRespawnRespawnDeadPlayersPatch.cs" />
     <Compile Include="Patches\MTFRespawn_UpdatePatch.cs" />
+    <Compile Include="Patches\Scp049PlayerScriptCallCmdRecallPlayerPatch.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
