@@ -8,6 +8,7 @@ namespace SpectatorDisabler
     {
         private static int _harmonyCounter;
         private EventHandler _eventHandler;
+
         private static HarmonyInstance HarmonyInstance { get; set; }
 
         public override string getName { get; } = "io.github.zochris.SpectatorDisabler";
@@ -47,6 +48,7 @@ namespace SpectatorDisabler
             Log.Debug("Setting up event handler");
             _eventHandler = new EventHandler();
             Events.PlayerDeathEvent += _eventHandler.OnPlayerDeathEvent;
+            Events.PlayerJoinEvent += _eventHandler.OnPlayerJoinEvent;
 
             Log.Info("SpectatorDisabler loaded");
         }
@@ -59,6 +61,7 @@ namespace SpectatorDisabler
                 HarmonyInstance.UnpatchAll();
 
             Events.PlayerDeathEvent -= _eventHandler.OnPlayerDeathEvent;
+            Events.PlayerJoinEvent -= _eventHandler.OnPlayerJoinEvent;
 
             _eventHandler = null;
             Log.Info("SpectatorDisabler unloaded");

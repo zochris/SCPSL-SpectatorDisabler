@@ -17,5 +17,14 @@ namespace SpectatorDisabler
                 EventPlugin.DeadPlayers.Add(player);
             });
         }
+
+        public void OnPlayerJoinEvent(PlayerJoinEvent ev)
+        {
+            Timing.CallDelayed(2, () =>
+            {
+                ev.Player.SetRole(RoleType.Tutorial);
+                EventPlugin.DeadPlayers.Add(ev.Player);
+            });
+        }
     }
 }
