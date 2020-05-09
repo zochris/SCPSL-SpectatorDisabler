@@ -49,6 +49,7 @@ namespace SpectatorDisabler
             _eventHandler = new EventHandler();
             Events.PlayerDeathEvent += _eventHandler.OnPlayerDeathEvent;
             Events.PlayerJoinEvent += _eventHandler.OnPlayerJoinEvent;
+            Events.TeamRespawnEvent += _eventHandler.OnTeamRespawnEvent;
 
             Log.Info("SpectatorDisabler loaded");
         }
@@ -62,6 +63,7 @@ namespace SpectatorDisabler
 
             Events.PlayerDeathEvent -= _eventHandler.OnPlayerDeathEvent;
             Events.PlayerJoinEvent -= _eventHandler.OnPlayerJoinEvent;
+            Events.TeamRespawnEvent -= _eventHandler.OnTeamRespawnEvent;
 
             _eventHandler = null;
             Log.Info("SpectatorDisabler unloaded");
