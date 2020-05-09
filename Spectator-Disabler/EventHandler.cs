@@ -24,6 +24,9 @@ namespace SpectatorDisabler
                 BroadcastMessage(scpPlayers,
                     RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
 
+                if (player.GetRole() != RoleType.Spectator)
+                    return;
+
                 player.SetRole(RoleType.Tutorial);
 
                 // add player to list of dead players, so that they get respawned
