@@ -1,6 +1,7 @@
 ﻿using EXILED;
 using Harmony;
 using SpectatorDisabler.Patches;
+using TeamRespawnEvent = EXILED.Patches.TeamRespawnEvent;
 
 namespace SpectatorDisabler
 {
@@ -15,9 +16,6 @@ namespace SpectatorDisabler
 
         public override void OnEnable()
         {
-            // disable RespawnPatch of EXILED framework
-            EventPlugin.RespawnPatchDisable = true;
-
             HarmonyInstance = HarmonyInstance.Create($"{getName}{_harmonyCounter++}");
 
             // setup patch for compiler generated _Update() method of MTFRespawn with transpiler
@@ -28,13 +26,14 @@ namespace SpectatorDisabler
 
             HarmonyInstance.Patch(originalUpdateMoveNextMethod, transpiler: new HarmonyMethod(transpiler));
 
-            // setup patch for RespawnDeadPlayers() of MTFRespawn
-            Log.Debug("Setting up RespawnDeadPlayers() patch");
-            var originalRespawn = AccessTools.Method(typeof(MTFRespawn), nameof(MTFRespawn.RespawnDeadPlayers));
-            var respawnPrefix = AccessTools.Method(typeof(MTFRespawnRespawnDeadPlayersPatch),
-                nameof(MTFRespawnRespawnDeadPlayersPatch.Prefix));
+            // setup patch for TeamRespawnEvent-Patch of EXILED
+            Log.Debug("Setting up RespawnEvent patch");
+            var originalExiledPatch = AccessTools.Method(typeof(TeamRespawnEvent),
+                nameof(TeamRespawnEvent.Prefix));
+            var respawnPatchTranspiler = AccessTools.Method(typeof(TeamRespawnEventPrefixPatch),
+                nameof(TeamRespawnEventPrefixPatch.Transpiler));
 
-            HarmonyInstance.Patch(originalRespawn, new HarmonyMethod(respawnPrefix));
+            HarmonyInstance.Patch(originalExiledPatch, transpiler: new HarmonyMethod(respawnPatchTranspiler));
 
             // setup patch for CallCmdRecallPlayer() of Scp049PlayerScript
             Log.Debug("Setting up CallCmdRecallPlayer() patch");
@@ -56,8 +55,6 @@ namespace SpectatorDisabler
 
         public override void OnDisable()
         {
-            EventPlugin.RespawnPatchDisable = false;
-
             if (HarmonyInstance != null || HarmonyInstance != default)
                 HarmonyInstance.UnpatchAll();
 
