@@ -18,7 +18,7 @@ namespace SpectatorDisabler
             Timing.CallDelayed(1, () =>
             {
                 _remainingTargetCount = Player.GetHubs().Count(p =>
-                    p.GetTeam() == Team.CDP && p.GetTeam() == Team.MTF && p.GetTeam() == Team.RSC);
+                    p.GetTeam() == Team.CDP || p.GetTeam() == Team.MTF || p.GetTeam() == Team.RSC);
 
                 var scpPlayers = Team.SCP.GetHubs();
                 BroadcastMessage(scpPlayers,
