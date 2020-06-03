@@ -1,0 +1,70 @@
+name: CI and Release
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Build project
+      run: msbuild -p:Configuration='Release' -m
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: binary
+        path: Spectator-Disabler/bin/Release/SpectatorDisabler.dll
+
+  release:
+    if: github.ref == 'master'
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Fetch all history for all tags and branches
+      run: git fetch --prune --unshallow
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.3
+      with:
+          versionSpec: '5.2.x'
+
+    - name: Use GitVersion
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.3
+
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: binary
+
+    - name: Create a Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
+        release_name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}
+
+    - name: Upload binary to release
+      uses: actions/upload-release-asset@v1
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./SpectatorDisabler.dll
