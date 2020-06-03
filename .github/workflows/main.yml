@@ -18,7 +18,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1
 
     - name: Build project
-      run: msbuild
+      run: msbuild -p:Configuration='Release' -m
 
     - name: Display file structure # For testing
       run: Get-ChildItem -r
