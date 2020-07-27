@@ -18,7 +18,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1
     
     - name: Restore project
-      run: msbuild -t:restore
+      run: nuget restore Spectator-Disabler.sln
 
     - name: Build project
       run: msbuild -p:Configuration='Release' -m
