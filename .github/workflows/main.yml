@@ -29,8 +29,11 @@ jobs:
         name: binary
         path: Spectator-Disabler/bin/Release/SpectatorDisabler.dll
 
+    - name: Debug release condition
+      run: echo "$github.ref"
+
   release:
-    if: github.ref == 'master'
+    if: ${{ github.ref == 'master' }}
     needs: build
     runs-on: ubuntu-latest
 
