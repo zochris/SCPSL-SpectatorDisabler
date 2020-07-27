@@ -7,15 +7,6 @@ on:
     branches: [ master, develop ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Debug release condition
-      env: 
-        test: ${{github.ref}}
-      run: echo "$test"
-
   build:
     runs-on: windows-latest
 
@@ -39,7 +30,7 @@ jobs:
         path: Spectator-Disabler/bin/Release/SpectatorDisabler.dll
 
   release:
-    if: ${{ github.ref == 'master' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: build
     runs-on: ubuntu-latest
 
