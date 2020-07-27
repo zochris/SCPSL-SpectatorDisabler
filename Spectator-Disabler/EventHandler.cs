@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EXILED;
-using EXILED.Extensions;
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.Events.EventArgs;
 using MEC;
+using Respawning;
 
 namespace SpectatorDisabler
 {
@@ -12,54 +14,46 @@ namespace SpectatorDisabler
 
         private int _remainingTargetCount;
 
-        public void OnPlayerDeathEvent(ref PlayerDeathEvent ev)
+        public void OnPlayerDied(DiedEventArgs ev)
         {
-            var player = ev.Player;
+            var player = ev.Target;
             Timing.CallDelayed(1, () =>
             {
-                _remainingTargetCount = Player.GetHubs().Count(p =>
-                    p.GetTeam() == Team.CDP || p.GetTeam() == Team.MTF || p.GetTeam() == Team.RSC);
+                _remainingTargetCount = Player.List.Count(p =>
+                    p.Team == Team.CDP || p.Team == Team.MTF || p.Team == Team.RSC);
 
-                var scpPlayers = Team.SCP.GetHubs();
+                var scpPlayers = Player.List.Where(p => p.Side == Side.Scp);
                 BroadcastMessage(scpPlayers,
                     RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
 
-                if (player.GetRole() != RoleType.Spectator)
+                if (player.Role != RoleType.Spectator)
                     return;
 
                 player.SetRole(RoleType.Tutorial);
-
-                // add player to list of dead players, so that they get respawned
-                EventPlugin.DeadPlayers.Add(player);
             });
         }
 
-        public void OnPlayerJoinEvent(PlayerJoinEvent ev)
+        public void OnPlayerJoined(JoinedEventArgs ev)
         {
-            Timing.CallDelayed(2, () =>
-            {
-                ev.Player.SetRole(RoleType.Tutorial);
-                EventPlugin.DeadPlayers.Add(ev.Player);
-            });
+            Timing.CallDelayed(2, () => { ev.Player.SetRole(RoleType.Tutorial); });
         }
 
-        public void OnTeamRespawnEvent(ref TeamRespawnEvent ev)
+        public void OnServerRespawningTeam(RespawningTeamEventArgs ev)
         {
-            if (ev.IsChaos)
+            if (ev.NextKnownTeam == SpawnableTeamType.ChaosInsurgency)
                 return;
 
-            _remainingTargetCount += ev.ToRespawn.Count;
+            _remainingTargetCount += ev.Players.Count;
 
-            var scpPlayers = Team.SCP.GetHubs();
+            var scpPlayers = Player.List.Where(p => p.Side == Side.Scp);
             BroadcastMessage(scpPlayers, RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
         }
 
 
-        private static void BroadcastMessage(IEnumerable<ReferenceHub> targets, string message)
+        private static void BroadcastMessage(IEnumerable<Player> targets, string message)
         {
             foreach (var player in targets)
-                player.GetComponent<Broadcast>()
-                    .TargetAddElement(player.scp079PlayerScript.connectionToClient, message, 5, false);
+                player.Broadcast(5, message);
         }
     }
 }
