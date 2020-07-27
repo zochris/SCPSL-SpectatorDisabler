@@ -12,19 +12,29 @@ namespace SpectatorDisabler
     {
         private const string RemainingTargetMessage = "Remaining targets: <color=red>$count</color>";
 
+        private readonly Plugin _plugin;
+
         private int _remainingTargetCount;
+
+        public EventHandler(Plugin plugin)
+        {
+            _plugin = plugin;
+        }
 
         public void OnPlayerDied(DiedEventArgs ev)
         {
             var player = ev.Target;
             Timing.CallDelayed(1, () =>
             {
-                _remainingTargetCount = Player.List.Count(p =>
-                    p.Team == Team.CDP || p.Team == Team.MTF || p.Team == Team.RSC);
+                if (_plugin.Config.ShowRemainingTargetsMessage)
+                {
+                    _remainingTargetCount = Player.List.Count(p =>
+                        p.Team == Team.CDP || p.Team == Team.MTF || p.Team == Team.RSC);
 
-                var scpPlayers = Player.List.Where(p => p.Side == Side.Scp);
-                BroadcastMessage(scpPlayers,
-                    RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
+                    var scpPlayers = Player.List.Where(p => p.Side == Side.Scp);
+                    BroadcastMessage(scpPlayers,
+                        RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
+                }
 
                 if (player.Role != RoleType.Spectator)
                     return;
@@ -40,6 +50,9 @@ namespace SpectatorDisabler
 
         public void OnServerRespawningTeam(RespawningTeamEventArgs ev)
         {
+            if (!_plugin.Config.ShowRemainingTargetsMessage)
+                return;
+
             if (ev.NextKnownTeam == SpawnableTeamType.ChaosInsurgency)
                 return;
 
@@ -50,10 +63,10 @@ namespace SpectatorDisabler
         }
 
 
-        private static void BroadcastMessage(IEnumerable<Player> targets, string message)
+        private void BroadcastMessage(IEnumerable<Player> targets, string message)
         {
             foreach (var player in targets)
-                player.Broadcast(5, message);
+                player.Broadcast(_plugin.Config.RemainingTargetsMessageDuration, message);
         }
     }
 }

@@ -42,7 +42,7 @@ namespace SpectatorDisabler
         {
             Log.Debug("Setting up event handler");
 
-            _eventHandler = new EventHandler();
+            _eventHandler = new EventHandler(this);
             Player.Died += _eventHandler.OnPlayerDied;
             Player.Joined += _eventHandler.OnPlayerJoined;
             Server.RespawningTeam += _eventHandler.OnServerRespawningTeam;
