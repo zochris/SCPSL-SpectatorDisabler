@@ -16,9 +16,12 @@ jobs:
 
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1
+    
+    - name: Restore project
+      run: msbuild -t:restore
 
     - name: Build project
-      run: msbuild -p:Configuration='Release' -m -restore
+      run: msbuild -p:Configuration='Release' -m
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
