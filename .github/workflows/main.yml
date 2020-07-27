@@ -30,7 +30,7 @@ jobs:
         path: Spectator-Disabler/bin/Release/SpectatorDisabler.dll
 
   release:
-    if: github.ref == 'master'
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: build
     runs-on: ubuntu-latest
 
