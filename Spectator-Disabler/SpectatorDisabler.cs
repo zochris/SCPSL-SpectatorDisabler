@@ -6,7 +6,7 @@ using Server = Exiled.Events.Handlers.Server;
 
 namespace SpectatorDisabler
 {
-    public class Plugin : Plugin<Config>
+    public class SpectatorDisabler : Plugin<Config>
     {
         private static int _harmonyCounter;
         private EventHandler _eventHandler;

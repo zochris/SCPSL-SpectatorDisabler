@@ -35,7 +35,7 @@
     <Compile Include="EventHandler.cs" />
     <Compile Include="Patches\PlayerGet_IsDeadPatch.cs" />
     <Compile Include="Patches\ReplaceSpectatorWithTutorialPatch.cs" />
-    <Compile Include="Plugin.cs" />
+    <Compile Include="SpectatorDisabler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
