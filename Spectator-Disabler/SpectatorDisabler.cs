@@ -15,7 +15,7 @@ namespace SpectatorDisabler
 
         public override string Name { get; } = "SpectatorDisabler";
         public override string Author { get; } = "zochris";
-        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 7);
 
         public override void OnEnabled()
         {
