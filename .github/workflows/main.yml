@@ -13,12 +13,24 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: setup-msbuild
       uses: microsoft/setup-msbuild@v1
     
     - name: Restore project
       run: nuget restore Spectator-Disabler.sln
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.4
+      with:
+        versionSpec: '5.3.x'
+
+    - name: Use GitVersion
+      uses: gittools/actions/gitversion/execute@v0.9.4
+      with:
+        updateAssemblyInfo: true
 
     - name: Build project
       run: msbuild -p:Configuration='Release' -m
@@ -37,18 +49,17 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Fetch all history for all tags and branches
-      run: git fetch --prune --unshallow
+      with:
+        fetch-depth: 0
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.3
+      uses: gittools/actions/gitversion/setup@v0.9.4
       with:
-          versionSpec: '5.2.x'
+          versionSpec: '5.3.x'
 
     - name: Use GitVersion
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.3
+      uses: gittools/actions/gitversion/execute@v0.9.4
 
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2
@@ -72,4 +83,4 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./SpectatorDisabler.dll
-        asset_name: SpectatorDisabler.dll
+        asset_name: SpectatorDisabler-${{ steps.gitversion.outputs.majorMinorPatch }}.dll
