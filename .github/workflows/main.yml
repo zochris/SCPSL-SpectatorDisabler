@@ -31,6 +31,7 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.9.4
       with:
         updateAssemblyInfo: true
+        updateAssemblyInfoFilename: Spectator-Disabler/Properties/AssemblyInfo.cs
 
     - name: Build project
       run: msbuild -p:Configuration='Release' -m
