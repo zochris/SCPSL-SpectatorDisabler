@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Exiled.API.Features;
 using HarmonyLib;
 using Player = Exiled.Events.Handlers.Player;
@@ -15,6 +16,7 @@ namespace SpectatorDisabler
 
         public override string Name { get; } = "SpectatorDisabler";
         public override string Author { get; } = "zochris";
+        public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
         public override Version RequiredExiledVersion { get; } = new Version(2, 1, 7);
 
         public override void OnEnabled()
