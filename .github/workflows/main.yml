@@ -85,3 +85,4 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./SpectatorDisabler.dll
         asset_name: SpectatorDisabler-${{ steps.gitversion.outputs.majorMinorPatch }}.dll
+        asset_content_type: application/vnd.microsoft.portable-executable
