@@ -12,11 +12,11 @@ namespace SpectatorDisabler
     {
         private const string RemainingTargetMessage = "Remaining targets: <color=red>$count</color>";
 
-        private readonly Plugin _plugin;
+        private readonly SpectatorDisabler _plugin;
 
         private int _remainingTargetCount;
 
-        public EventHandler(Plugin plugin)
+        public EventHandler(SpectatorDisabler plugin)
         {
             _plugin = plugin;
         }
