@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
+using PlayableScps;
 using Respawning;
 
 namespace SpectatorDisabler.Patches
@@ -13,9 +14,7 @@ namespace SpectatorDisabler.Patches
         private static IEnumerable<MethodBase> TargetMethods()
         {
             // Fix SCP049's ability to revive dead players
-            var c = AccessTools.TypeByName("Exiled.Events.Patches.Events.Scp049.StartingAndFinishingRecall");
-            var m = AccessTools.Method(c, "Prefix");
-            yield return m;
+            yield return typeof(Scp049).GetMethod(nameof(Scp049.BodyCmd_ByteAndGameObject));
 
             // Patch drawing of new team to spawn to search for tutorials
             yield return typeof(RespawnTickets).GetMethod(nameof(RespawnTickets.DrawRandomTeam));
