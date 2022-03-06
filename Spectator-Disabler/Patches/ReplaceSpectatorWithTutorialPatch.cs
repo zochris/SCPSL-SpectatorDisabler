@@ -18,6 +18,11 @@ namespace SpectatorDisabler.Patches
 
             // Patch drawing of new team to spawn to search for tutorials
             yield return typeof(RespawnTickets).GetMethod(nameof(RespawnTickets.DrawRandomTeam));
+
+            // Patch spawning of new team to search for tutorials
+            var firstInner = AccessTools.FirstInner(typeof(RespawnManager), type => type.Name.Contains("<>c"));
+            var method = AccessTools.FirstMethod(firstInner, info => info.Name.Contains("b__16_0"));
+            yield return method;
         }
 
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
