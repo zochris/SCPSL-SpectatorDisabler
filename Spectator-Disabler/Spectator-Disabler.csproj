@@ -62,7 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="EXILED" Version="3.0.5" />
+    <PackageReference Include="EXILED" Version="5.0.0-beta.5" />
     <PackageReference Include="Lib.Harmony" Version="2.0.4" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
