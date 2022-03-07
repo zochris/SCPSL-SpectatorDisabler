@@ -29,9 +29,9 @@ namespace SpectatorDisabler
                 if (_plugin.Config.ShowRemainingTargetsMessage)
                 {
                     _remainingTargetCount = Player.List.Count(p =>
-                        p.Team == Team.CDP || p.Team == Team.MTF || p.Team == Team.RSC);
+                        p.Role.Team == Team.CDP || p.Role.Team == Team.MTF || p.Role.Team == Team.RSC);
 
-                    var scpPlayers = Player.List.Where(p => p.Side == Side.Scp);
+                    var scpPlayers = Player.List.Where(p => p.Role.Side == Side.Scp);
                     BroadcastMessage(scpPlayers,
                         RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
                 }
@@ -58,7 +58,7 @@ namespace SpectatorDisabler
 
             _remainingTargetCount += ev.Players.Count;
 
-            var scpPlayers = Player.List.Where(p => p.Side == Side.Scp);
+            var scpPlayers = Player.List.Where(p => p.Role.Side == Side.Scp);
             BroadcastMessage(scpPlayers, RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
         }
 
