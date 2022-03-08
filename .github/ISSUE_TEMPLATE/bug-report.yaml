@@ -1,0 +1,41 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen? If possible include a screenshot or a short video.
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
+  - type: textbox
+    id: game-version
+    attributes:
+      label: SCP:SL version
+      description: Version of the game
+    validations:
+      required: true
+  - type: textbox
+    id: exiled-version
+    attributes:
+      label: EXILED version
+      description: Version of the EXILED framework
+  - type: textbox
+    id: plugin-version
+    attributes:
+      label: SpectatorDisabler version
+      description: Version of this plugin
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
