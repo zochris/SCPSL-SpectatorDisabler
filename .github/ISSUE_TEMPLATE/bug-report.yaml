@@ -16,19 +16,19 @@ body:
       value: "A bug happened!"
     validations:
       required: true
-  - type: textbox
+  - type: input
     id: game-version
     attributes:
       label: SCP:SL version
       description: Version of the game
     validations:
       required: true
-  - type: textbox
+  - type: input
     id: exiled-version
     attributes:
       label: EXILED version
       description: Version of the EXILED framework
-  - type: textbox
+  - type: input
     id: plugin-version
     attributes:
       label: SpectatorDisabler version
