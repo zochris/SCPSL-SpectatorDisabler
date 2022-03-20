@@ -27,3 +27,10 @@ Feel free to report plugins that cause issues.
 
 - [SerpentsHand](https://github.com/Cyanox62/SerpentsHand/)
 - probably more to be added…
+
+## Contributing
+
+Refer to the [Contributing Guidelines](docs/CONTRIBUTING.md) if you want to contribute.
+
+Everyone interacting with this repository is expected to follow the [code of conduct](CODE_OF_CONDUCT.md).
+
