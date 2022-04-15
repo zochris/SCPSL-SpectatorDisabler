@@ -26,6 +26,7 @@ Feel free to report plugins that cause issues.
 ### Known incompatibilities
 
 - [SerpentsHand](https://github.com/Cyanox62/SerpentsHand/)
+- [Spectator-Shooting-Range](https://github.com/rayzerbrain/Spectator-Shooting-Range)
 - probably more to be added…
 
 ## Contributing
