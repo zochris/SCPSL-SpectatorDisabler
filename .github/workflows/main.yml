@@ -67,6 +67,11 @@ jobs:
       with:
         name: binary
 
+    - name: Format release message
+      id: release_message
+      run: |
+        echo ::set-output name=message::"$(echo '${{ github.event.head_commit.message }}' | tail -n +2)"
+
     - name: Create a Release
       id: create_release
       uses: actions/create-release@v1
@@ -75,7 +80,7 @@ jobs:
       with:
         tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
         release_name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}
-        body: ${{ github.event.head_commit.message }}
+        body: ${{ steps.release_message.outputs.message }}
 
     - name: Upload binary to release
       uses: actions/upload-release-asset@v1
