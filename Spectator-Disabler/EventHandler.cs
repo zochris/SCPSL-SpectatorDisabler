@@ -1,72 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.Events.EventArgs;
+using Exiled.Events.EventArgs.Player;
 using MEC;
-using Respawning;
+using PlayerRoles;
 
 namespace SpectatorDisabler
 {
     public class EventHandler
     {
-        private const string RemainingTargetMessage = "Remaining targets: <color=red>$count</color>";
-
-        private readonly SpectatorDisabler _plugin;
-
-        private int _remainingTargetCount;
-
-        public EventHandler(SpectatorDisabler plugin)
+        public static void OnPlayerSpawning(SpawnedEventArgs ev)
         {
-            _plugin = plugin;
-        }
-
-        public void OnPlayerDied(DiedEventArgs ev)
-        {
-            var player = ev.Target;
-            Timing.CallDelayed(1, () =>
+            if (ev.Player.Role == RoleTypeId.Spectator)
             {
-                if (_plugin.Config.ShowRemainingTargetsMessage)
+                Timing.CallDelayed(1, () => { ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.UseSpawnpoint); });
+            }
+
+            if (ev.Reason == SpawnReason.Revived)
+            {
+                var scp = Player.List.FirstOrDefault(player => player.Role == RoleTypeId.Scp049);
+
+                if (scp != null)
                 {
-                    _remainingTargetCount = Player.List.Count(p =>
-                        p.Role.Team == Team.CDP || p.Role.Team == Team.MTF || p.Role.Team == Team.RSC);
-
-                    var scpPlayers = Player.List.Where(p => p.Role.Side == Side.Scp);
-                    BroadcastMessage(scpPlayers,
-                        RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
+                    ev.Player.Position = scp.Position;
                 }
-
-                if (player.Role != RoleType.Spectator)
-                    return;
-
-                player.SetRole(RoleType.Tutorial);
-            });
-        }
-
-        public void OnPlayerJoined(JoinedEventArgs ev)
-        {
-            Timing.CallDelayed(2, () => { ev.Player.SetRole(RoleType.Tutorial); });
-        }
-
-        public void OnServerRespawningTeam(RespawningTeamEventArgs ev)
-        {
-            if (!_plugin.Config.ShowRemainingTargetsMessage)
-                return;
-
-            if (ev.NextKnownTeam == SpawnableTeamType.ChaosInsurgency)
-                return;
-
-            _remainingTargetCount += ev.Players.Count;
-
-            var scpPlayers = Player.List.Where(p => p.Role.Side == Side.Scp);
-            BroadcastMessage(scpPlayers, RemainingTargetMessage.Replace("$count", _remainingTargetCount.ToString()));
-        }
-
-
-        private void BroadcastMessage(IEnumerable<Player> targets, string message)
-        {
-            foreach (var player in targets)
-                player.Broadcast(_plugin.Config.RemainingTargetsMessageDuration, message);
+            }
         }
     }
 }

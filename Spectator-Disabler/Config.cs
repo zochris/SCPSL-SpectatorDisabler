@@ -8,10 +8,7 @@ namespace SpectatorDisabler
         [Description("Indicates whether the plugin is enabled or not")]
         public bool IsEnabled { get; set; } = true;
 
-        [Description("Indicates wether the custom remaining targets message is shown")]
-        public bool ShowRemainingTargetsMessage { get; set; } = true;
-
-        [Description("How long the remaining targets message should be shown")]
-        public ushort RemainingTargetsMessageDuration { get; set; } = 5;
+        [Description("Enables debug logging")]
+        public bool Debug { get; set; } = false;
     }
 }
