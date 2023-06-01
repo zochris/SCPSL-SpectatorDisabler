@@ -33,7 +33,7 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.10.2
       id: gitversion
       with:
-        updateProjectFiles: true
+        additionalArguments: 'updateprojectfiles'
 
     - name: Build
       run: dotnet build --no-restore -c Release
