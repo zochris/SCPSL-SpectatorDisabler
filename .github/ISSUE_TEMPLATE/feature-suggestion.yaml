@@ -1,0 +1,17 @@
+name: Feature request
+description: Suggest an idea for this plugin
+labels: ["feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: What do you think could improve the plugin?
+      description: Describe your idea, how it could work, alternatives you have considered.
+      value: "I would like to have this thing, because..."
+    validations:
+      required: true
+
