@@ -8,39 +8,42 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
-    - name: setup-msbuild
-      uses: microsoft/setup-msbuild@v1
-    
-    - name: Restore project
-      run: nuget restore Spectator-Disabler.sln
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.11
+      uses: gittools/actions/gitversion/setup@v0.10.2
       with:
         versionSpec: '5.x'
 
     - name: Use GitVersion
-      uses: gittools/actions/gitversion/execute@v0.9.11
+      uses: gittools/actions/gitversion/execute@v0.10.2
+      id: gitversion
       with:
-        updateAssemblyInfo: true
-        updateAssemblyInfoFilename: Spectator-Disabler/Properties/AssemblyInfo.cs
+        additionalArguments: '/updateprojectfiles'
 
-    - name: Build project
-      run: msbuild -p:Configuration='Release' -m
+    - name: Build
+      run: dotnet build --no-restore -c Release
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: binary
-        path: Spectator-Disabler/bin/Release/SpectatorDisabler.dll
+        name: artifact
+        path: Spectator-Disabler/bin/Release/net48/SpectatorDisabler-${{ steps.gitversion.outputs.assemblySemVer }}.dll
+        if-no-files-found: error
 
   release:
     if: ${{ github.ref == 'refs/heads/master' }}
@@ -49,45 +52,33 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.9.11
+      uses: gittools/actions/gitversion/setup@v0.10.2
       with:
           versionSpec: '5.x'
 
     - name: Use GitVersion
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.11
+      uses: gittools/actions/gitversion/execute@v0.10.2
 
     - name: Download a Build Artifact
       uses: actions/download-artifact@v2
       with:
-        name: binary
+        name: artifact
 
     - name: Format release message
       id: release_message
       run: |
         echo ::set-output name=message::"$(echo '${{ github.event.head_commit.message }}' | tail -n +2)"
 
-    - name: Create a Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
-        release_name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}
+        name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}
         body: ${{ steps.release_message.outputs.message }}
-
-    - name: Upload binary to release
-      uses: actions/upload-release-asset@v1
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./SpectatorDisabler.dll
-        asset_name: SpectatorDisabler-${{ steps.gitversion.outputs.majorMinorPatch }}.dll
-        asset_content_type: application/vnd.microsoft.portable-executable
+        files: SpectatorDisabler-${{ steps.gitversion.outputs.assemblySemVer }}.dll
