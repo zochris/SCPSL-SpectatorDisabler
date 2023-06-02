@@ -71,14 +71,14 @@ jobs:
         name: artifact
 
     - name: Format release message
-      id: release_message
       run: |
-        echo ::set-output name=message::"$(echo '${{ github.event.head_commit.message }}' | tail -n +2)"
+        echo '${{ github.event.head_commit.message }}' | tail -n +2 > release-message.txt
+        cat release-message.txt
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
         name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}
-        body: ${{ steps.release_message.outputs.message }}
+        body_path: release-message.txt
         files: SpectatorDisabler-${{ steps.gitversion.outputs.assemblySemVer }}.dll
