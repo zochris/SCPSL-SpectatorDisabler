@@ -2,23 +2,35 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using Exiled.API.Features.Pools;
 using HarmonyLib;
+using JetBrains.Annotations;
 using PlayerRoles;
 using Respawning;
 
 namespace SpectatorDisabler.Patches
 {
     [HarmonyPatch(typeof(RespawnManager), nameof(RespawnManager.CheckSpawnable))]
-    internal class RespawnManagerPatch
+    internal static class RespawnManagerPatch
     {
-        // Replace this:
-        // if (ply.roleManager.CurrentRole is SpectatorRole spectatorRole)
-        // {
-        //     return spectatorRole.ReadyToRespawn;
-        // }
-        // return false;
-
-        // With this:
-        // return ply.roleManager.CurrentRole.RoleTypeId == RoleTypeId.Tutorial
+        /// <summary>
+        ///     This transpiler replaces this:
+        ///     <code>
+        ///         if (ply.roleManager.CurrentRole is SpectatorRole spectatorRole)
+        ///         {
+        ///             return spectatorRole.ReadyToRespawn;
+        ///         }
+        ///         return false;
+        ///     </code>
+        ///     With this:
+        ///     <code>
+        ///         return ply.roleManager.CurrentRole.RoleTypeId == RoleTypeId.Tutorial
+        ///     </code>
+        /// </summary>
+        /// <param name="instructions">
+        ///     The <see cref="CodeInstruction" />s of the original
+        ///     <see cref="RespawnManager.CheckSpawnable" /> method.
+        /// </param>
+        /// <returns>The new patched <see cref="CodeInstruction" />s of the <see cref="RespawnManager.CheckSpawnable" /> method.</returns>
+        [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
