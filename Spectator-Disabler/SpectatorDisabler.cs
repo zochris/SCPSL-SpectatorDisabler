@@ -32,7 +32,6 @@ namespace SpectatorDisabler
         public override void OnEnabled()
         {
             HarmonyInstance = new Harmony($"{Name}{_harmonyCounter++}");
-            // Harmony.DEBUG = Config.Debug;
             HarmonyInstance.PatchAll();
 
             RegisterEvents();
