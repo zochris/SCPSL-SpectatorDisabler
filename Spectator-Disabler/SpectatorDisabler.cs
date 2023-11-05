@@ -12,9 +12,9 @@ namespace SpectatorDisabler
 
         private static Harmony HarmonyInstance { get; set; }
 
-        public override string Author { get; } = "zochris";
-        public override string Name { get; } = "SpectatorDisabler";
-        public override Version RequiredExiledVersion { get; } = new Version(7, 0, 0);
+        public override string Author => "zochris";
+        public override string Name => "SpectatorDisabler";
+        public override Version RequiredExiledVersion { get; } = new Version(8, 3, 9);
         public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public override void OnDisabled()
