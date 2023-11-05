@@ -7,7 +7,7 @@ using PlayerRoles;
 
 namespace SpectatorDisabler
 {
-    public class EventHandler
+    public static class EventHandler
     {
         public static void OnPlayerSpawning(SpawnedEventArgs ev)
         {
