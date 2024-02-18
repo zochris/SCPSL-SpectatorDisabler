@@ -2,6 +2,7 @@
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp049;
 using MEC;
 using PlayerRoles;
 
@@ -25,6 +26,12 @@ namespace SpectatorDisabler
                     ev.Player.Position = scp.Position;
                 }
             }
+        }
+
+        public static void OnFinishingRecall(FinishingRecallEventArgs ev)
+        {
+            // This should default to true, but for some reason it does not
+            ev.IsAllowed = true;
         }
     }
 }
