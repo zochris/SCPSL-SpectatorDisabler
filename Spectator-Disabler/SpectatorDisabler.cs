@@ -3,6 +3,7 @@ using System.Reflection;
 using Exiled.API.Features;
 using HarmonyLib;
 using Player = Exiled.Events.Handlers.Player;
+using Scp049 = Exiled.Events.Handlers.Scp049;
 
 namespace SpectatorDisabler
 {
@@ -44,11 +45,13 @@ namespace SpectatorDisabler
             Log.Debug("Setting up event handler");
 
             Player.Spawned += EventHandler.OnPlayerSpawning;
+            Scp049.FinishingRecall += EventHandler.OnFinishingRecall;
         }
 
         private static void UnregisterEvents()
         {
             Player.Spawned -= EventHandler.OnPlayerSpawning;
+            Scp049.FinishingRecall -= EventHandler.OnFinishingRecall;
         }
     }
 }
