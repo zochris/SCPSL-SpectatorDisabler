@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Reflection;
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using HarmonyLib;
 using Player = Exiled.Events.Handlers.Player;
 using Scp049 = Exiled.Events.Handlers.Scp049;
+using Server = Exiled.Events.Handlers.Server;
+using Item = Exiled.Events.Handlers.Item;
 
 namespace SpectatorDisabler
 {
@@ -46,12 +49,20 @@ namespace SpectatorDisabler
 
             Player.Spawned += EventHandler.OnPlayerSpawning;
             Scp049.FinishingRecall += EventHandler.OnFinishingRecall;
+            Server.RoundStarted += EventHandler.OnRoundStarted;
+            Player.PickingUpItem += EventHandler.OnPickingUpItem;
+            Item.ChangingAttachments += EventHandler.OnAttachmentChange;
+            Player.DroppingItem += EventHandler.OnDroppingItem;
         }
 
         private static void UnregisterEvents()
         {
             Player.Spawned -= EventHandler.OnPlayerSpawning;
             Scp049.FinishingRecall -= EventHandler.OnFinishingRecall;
+            Server.RoundStarted -= EventHandler.OnRoundStarted;
+            Player.PickingUpItem -= EventHandler.OnPickingUpItem;
+            Item.ChangingAttachments -= EventHandler.OnAttachmentChange;
+            Player.DroppingItem -= EventHandler.OnDroppingItem;
         }
     }
 }

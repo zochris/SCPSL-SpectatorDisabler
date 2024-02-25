@@ -10,5 +10,8 @@ namespace SpectatorDisabler
 
         [Description("Enables debug logging")]
         public bool Debug { get; set; } = false;
+
+        [Description("Enables blocking tower view with planes")]
+        public bool TowerBlockView { get; set; } = true;
     }
 }

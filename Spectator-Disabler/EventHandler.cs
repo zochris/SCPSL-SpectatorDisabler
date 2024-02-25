@@ -3,6 +3,7 @@ using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp049;
+using Exiled.Events.EventArgs.Item;
 using MEC;
 using PlayerRoles;
 
@@ -32,6 +33,28 @@ namespace SpectatorDisabler
         {
             // This should default to true, but for some reason it does not
             ev.IsAllowed = true;
+        }
+
+        public static void OnRoundStarted()
+        {
+            TowerUtils.SpawnWindowBlockers();
+            TowerUtils.SpawnWorkbench();
+            TowerUtils.SpawnWallWeapons();
+        }
+
+        public static void OnPickingUpItem(PickingUpItemEventArgs args)
+        {
+            TowerUtils.OnPickingUpItem(args);
+        }
+
+        public static void OnAttachmentChange(ChangingAttachmentsEventArgs args)
+        {
+            TowerUtils.OnAttachmentChange(args);
+        }
+
+        public static void OnDroppingItem(DroppingItemEventArgs args)
+        {
+            TowerUtils.OnDroppingItem(args);
         }
     }
 }
