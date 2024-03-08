@@ -67,6 +67,7 @@ namespace SpectatorDisabler
         private void UnregisterEvents()
         {
             Player.Spawned -= EventHandler.OnPlayerSpawning;
+            Scp049.FinishingRecall -= EventHandler.OnFinishingRecall;
             if (Config.TowerWorkbench) 
             {
                 Server.RoundStarted -= TowerBench.OnRoundStarted;
