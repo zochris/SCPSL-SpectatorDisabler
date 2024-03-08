@@ -1,74 +1,33 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Exiled.API.Features.Toys;
-using Exiled.API.Features.Pickups;
-using Log = Exiled.API.Features.Log;
-using PlayerRoles;
-using Mirror;
-using Exiled.Events.EventArgs.Player;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Extensions;
+using Exiled.API.Features;
 using Exiled.API.Features.Items;
+using Exiled.API.Features.Pickups;
 using Exiled.API.Structs;
 using Exiled.Events.EventArgs.Item;
+using Exiled.Events.EventArgs.Player;
+using Mirror;
+using PlayerRoles;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
 
-namespace SpectatorDisabler
+namespace SpectatorDisabler.Tower
 {
-    internal class TowerUtils
+    internal class TowerBench
     {
-        static readonly Vector3 TOWER_WINDOWS_1_POS = new Vector3(34.91f, 1014.75f, -33.35f);
-        static readonly Vector3 TOWER_WINDOWS_2_POS = new Vector3(34.91f, 1014.75f, -30.75f);
-        static readonly Vector3 TOWER_WINDOWS_3_POS = new Vector3(37.8f, 1014.75f, -36f);
-        static readonly Vector3 TOWER_WINDOWS_4_POS = new Vector3(40.4f, 1014.75f, -36f);
-        static readonly Vector3 TOWER_PLANE_SCALE = new Vector3(0.25f, 0.25f, 0.25f);
-
         static readonly Vector3 BENCH_SPAWN_POSITION = new Vector3(42.93f, 1013.05f, -34.55f);
+        static readonly Vector3 BENCH_SPAWN_ROTATION = new Vector3(0f, -90f, 0f);
 
         static readonly Vector3 INITIAL_SPAWN = new Vector3(42.9f, 1015.25f, -31f);
 
         static readonly float WEAPON_SPAWN_Z_MARGIN = -1f;
         static readonly float WEAPON_SPAWN_Y_MARGIN = -0.35f;
 
-        // TODO: Clear these between rounds
         private static List<Pickup> _wallItems = new List<Pickup>();
         private static List<uint> _givenWallItems = new List<uint>();
-
-        // Because the plane primitive is a one way we spawn two facing both directions
-        // This could technically be configured to only spawn one window and allow
-        // Tutorial to look out.
-        public static void SpawnWindowBlockers() {
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_1_POS, new Vector3(0, 0, 90), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_1_POS, new Vector3(0, 0, -90), TOWER_PLANE_SCALE);
-
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_2_POS, new Vector3(0, 0, 90), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_2_POS, new Vector3(0, 0, -90), TOWER_PLANE_SCALE);
-
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_3_POS, new Vector3(90, 0, 0), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_3_POS, new Vector3(-90, 0, 0), TOWER_PLANE_SCALE);
-
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_4_POS, new Vector3(90, 0, 0), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_4_POS, new Vector3(-90, 0, 0), TOWER_PLANE_SCALE);
-        }
-
-        public static void SpawnWorkbench()
-        {
-            GameObject bench = NetworkClient.prefabs.Values.First(p => p.name.Contains("Work Station"));
-            if (bench == null)
-            {
-                Log.Error("Bench prefab not found, not spawning bench in tower!");
-                return;
-            }
-            Log.Info("Instantiating bench.");
-            bench = Object.Instantiate(bench);
-            if (!bench.TryGetComponent(out Transform t))
-            {
-                Log.Error("Could not get transform component of bench.");
-                return;
-            }
-            NetworkServer.Spawn(bench);
-            t.position = BENCH_SPAWN_POSITION;
-            t.Rotate(new Vector3(0, -90, 0));
-        }
 
         private class WallWeaponSpawn
         {
@@ -78,7 +37,7 @@ namespace SpectatorDisabler
 
             public WallWeaponSpawn(ItemType weapon, Vector3 rotation, Vector3 offset)
             {
-                this.type = weapon;
+                type = weapon;
                 this.rotation = rotation;
                 this.offset = offset;
             }
@@ -100,9 +59,33 @@ namespace SpectatorDisabler
             new WallWeaponSpawn(ItemType.GunLogicer, new Vector3(0, -90, 0), new Vector3(0, 0, 0.1f)),
         };
 
+        public static void SpawnWorkbench()
+        {
+            Log.Debug("Instantiating bench.");
+
+            GameObject bench = NetworkClient.prefabs.Values.First(p => p.name.Contains("Work Station"));
+            if (bench == null)
+            {
+                Log.Error("Bench prefab not found, not spawning bench in tower!");
+                return;
+            }
+
+            bench = UnityEngine.Object.Instantiate(bench);
+            if (!bench.TryGetComponent(out Transform t))
+            {
+                Log.Error("Could not get transform component of bench.");
+                return;
+            }
+
+            NetworkServer.Spawn(bench);
+            t.position = BENCH_SPAWN_POSITION;
+            t.Rotate(BENCH_SPAWN_ROTATION);
+        }
+
         public static void SpawnWallWeapons()
         {
-            Log.Info("Spawning tower wall weapons.");
+            Log.Debug("Spawning tower wall weapons.");
+
             int yOffset = 0;
             int zOffset = 0;
 
@@ -121,8 +104,8 @@ namespace SpectatorDisabler
                 l.PhysicsModule.Rb.isKinematic = true;
                 _wallItems.Add(l);
                 l.Spawn(new Vector3(
-                        INITIAL_SPAWN.x + spawn.offset.x,  
-                        INITIAL_SPAWN.y + yOffset * WEAPON_SPAWN_Y_MARGIN + spawn.offset.y, 
+                        INITIAL_SPAWN.x + spawn.offset.x,
+                        INITIAL_SPAWN.y + yOffset * WEAPON_SPAWN_Y_MARGIN + spawn.offset.y,
                         INITIAL_SPAWN.z + zOffset * WEAPON_SPAWN_Z_MARGIN + spawn.offset.z),
                     Quaternion.Euler(spawn.rotation)
                 );
@@ -136,7 +119,7 @@ namespace SpectatorDisabler
             }
         }
 
-        public static void OnPickingUpItem(PickingUpItemEventArgs args) 
+        public static void OnPickingUpItem(PickingUpItemEventArgs args)
         {
             if (!_wallItems.Contains(args.Pickup))
             {
@@ -154,7 +137,7 @@ namespace SpectatorDisabler
             if (itemInInventory.IsWeapon)
             {
                 Firearm weaponInInventory = itemInInventory as Firearm;
-                if (args.Player.Preferences.TryGetValue(ItemExtensions.GetFirearmType(itemInInventory.Type), out AttachmentIdentifier[] preferences))
+                if (args.Player.Preferences.TryGetValue(itemInInventory.Type.GetFirearmType(), out AttachmentIdentifier[] preferences))
                 {
                     weaponInInventory.AddAttachment(preferences);
                 }
@@ -182,6 +165,15 @@ namespace SpectatorDisabler
             }
             args.Player.RemoveItem(args.Item);
             args.IsAllowed = false;
+            _givenWallItems.Remove(args.Item.Serial);
+        }
+
+        public static void OnRoundStarted()
+        {
+            _wallItems.Clear();
+            _givenWallItems.Clear();
+            SpawnWallWeapons();
+            SpawnWorkbench();
         }
     }
 }

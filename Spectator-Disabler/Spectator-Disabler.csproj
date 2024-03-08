@@ -29,6 +29,9 @@
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.PhysicsModule">
+          <HintPath>..\References\UnityEngine.PhysicsModule.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

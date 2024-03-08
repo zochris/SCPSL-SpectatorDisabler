@@ -34,27 +34,5 @@ namespace SpectatorDisabler
             // This should default to true, but for some reason it does not
             ev.IsAllowed = true;
         }
-
-        public static void OnRoundStarted()
-        {
-            TowerUtils.SpawnWindowBlockers();
-            TowerUtils.SpawnWorkbench();
-            TowerUtils.SpawnWallWeapons();
-        }
-
-        public static void OnPickingUpItem(PickingUpItemEventArgs args)
-        {
-            TowerUtils.OnPickingUpItem(args);
-        }
-
-        public static void OnAttachmentChange(ChangingAttachmentsEventArgs args)
-        {
-            TowerUtils.OnAttachmentChange(args);
-        }
-
-        public static void OnDroppingItem(DroppingItemEventArgs args)
-        {
-            TowerUtils.OnDroppingItem(args);
-        }
     }
 }
