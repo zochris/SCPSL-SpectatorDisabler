@@ -11,10 +11,12 @@ When a player dies they are put into the tutorial role to prevent them from spec
 
 ## Configuration
 
-| Name         | Type    | Default Value | Description                                    |
-| ------------ | ------- | ------------- | ---------------------------------------------- |
-| `is_enabled` | Boolean | true          | Indicates whether the plugin is enabled or not |
-| `debug`      | Boolean | false         | Enables debug logging                          |
+| Name                    | Type    | Default Value | Description                                              |
+| ----------------------- | ------- | ------------- | -------------------------------------------------------- |
+| `is_enabled`            | Boolean | true          | Indicates whether the plugin is enabled or not           |
+| `debug`                 | Boolean | false         | Enables debug logging                                    |
+| `tower_window_blockers` | Boolean | false         | Enables blocking the windows in the tower on the surface |
+| `tower_workbench`       | Boolean | true          | Enables spawning a workbench and safe weapons in tower   |
 
 ## Compatibility
 
