@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    types: [opened, synchronize, reopened]
   pull_request_target:
     types: [opened, synchronize, reopened]
 jobs:
@@ -18,15 +16,16 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Checkout PR from fork
         if: ${{ github.event_name == 'pull_request_target' }}
         run: gh pr checkout ${{ github.event.pull_request.number }}
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        if: ${{ github.event_name != 'pull_request_target' }}
-        with:
-          fetch-depth: 0
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v4
