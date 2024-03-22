@@ -3,7 +3,6 @@ using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp049;
-using Exiled.Events.EventArgs.Item;
 using MEC;
 using PlayerRoles;
 
