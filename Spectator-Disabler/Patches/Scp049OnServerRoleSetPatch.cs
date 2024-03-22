@@ -9,14 +9,16 @@ using Exiled.API.Features;
 using Exiled.API.Features.Pools;
 using Exiled.Events.EventArgs.Player;
 using HarmonyLib;
+using JetBrains.Annotations;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp049;
 
 namespace SpectatorDisabler.Patches
 {
     [HarmonyPatch]
-    internal class Scp049OnServerRoleSetPatch
+    internal static class Scp049OnServerRoleSetPatch
     {
+        [UsedImplicitly]
         private static IEnumerable<MethodBase> TargetMethods()
         {
             var generatedFunctions = AccessTools.Inner(typeof(Scp049ResurrectAbility), "<>c");
@@ -43,6 +45,7 @@ namespace SpectatorDisabler.Patches
         /// <returns>
         ///     The new patched <see cref="CodeInstruction" />s of the lambda function.
         /// </returns>
+        [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);

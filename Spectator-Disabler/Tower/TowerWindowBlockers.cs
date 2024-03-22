@@ -4,7 +4,7 @@ using Exiled.API.Features;
 
 namespace SpectatorDisabler.Tower
 {
-    internal class TowerWindowBlockers
+    internal static class TowerWindowBlockers
     {
         static readonly Vector3 TOWER_WINDOWS_1_POS = new Vector3(34.91f, 1014.75f, -33.35f);
         static readonly Vector3 TOWER_WINDOWS_2_POS = new Vector3(34.91f, 1014.75f, -30.75f);

@@ -29,7 +29,7 @@ namespace SpectatorDisabler.Tower
         private static List<Pickup> _wallItems = new List<Pickup>();
         private static List<uint> _givenWallItems = new List<uint>();
 
-        private class WallWeaponSpawn
+        private sealed class WallWeaponSpawn
         {
             public ItemType type;
             public Vector3 rotation;
