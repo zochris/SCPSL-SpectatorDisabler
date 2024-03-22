@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using Exiled.API.Features;
 using Exiled.API.Features.Pools;
-using Exiled.Events.EventArgs.Player;
 using HarmonyLib;
-using PlayerRoles;
+using JetBrains.Annotations;
 using PlayerRoles.PlayableScps.Scp049;
 
 namespace SpectatorDisabler.Patches
 {
     [HarmonyPatch]
-    internal class Scp049OnServerRoleSetPatch
+    internal static class Scp049OnServerRoleSetPatch
     {
+        [UsedImplicitly]
         private static IEnumerable<MethodBase> TargetMethods()
         {
             var generatedFunctions = AccessTools.Inner(typeof(Scp049ResurrectAbility), "<>c");
@@ -27,10 +22,12 @@ namespace SpectatorDisabler.Patches
 
         /// <summary>
         ///     This transpiler adds the following condition:
-        ///     <code>if (newRole == RoleTypeId.Tutorial)</code>
-        ///     <code>  return;</code>
+        ///     <code>
+        ///         if (newRole == RoleTypeId.Tutorial)
+        ///             return;
+        ///     </code>
         ///     to the lambda function that gets called when PlayerRoleManager.OnServerRoleSet gets fired.
-        ///     This means that changing to tutorial does not reset the counter of how many times a player 
+        ///     This means that changing to tutorial does not reset the counter of how many times a player
         ///     has been resurrected in their life.
         /// </summary>
         /// <param name="instructions">
@@ -43,10 +40,11 @@ namespace SpectatorDisabler.Patches
         /// <returns>
         ///     The new patched <see cref="CodeInstruction" />s of the lambda function.
         /// </returns>
+        [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
-            Label jumpLabel = generator.DefineLabel();
+            var jumpLabel = generator.DefineLabel();
 
             newInstructions.InsertRange(0, new[]
             {

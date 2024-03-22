@@ -4,32 +4,32 @@ using Exiled.API.Features;
 
 namespace SpectatorDisabler.Tower
 {
-    internal class TowerWindowBlockers
+    internal static class TowerWindowBlockers
     {
-        static readonly Vector3 TOWER_WINDOWS_1_POS = new Vector3(34.91f, 1014.75f, -33.35f);
-        static readonly Vector3 TOWER_WINDOWS_2_POS = new Vector3(34.91f, 1014.75f, -30.75f);
-        static readonly Vector3 TOWER_WINDOWS_3_POS = new Vector3(37.8f, 1014.75f, -36f);
-        static readonly Vector3 TOWER_WINDOWS_4_POS = new Vector3(40.4f, 1014.75f, -36f);
-        static readonly Vector3 TOWER_PLANE_SCALE = new Vector3(0.25f, 0.25f, 0.25f);
+        private readonly static Vector3 TowerWindows1Pos = new Vector3(34.91f, 1014.75f, -33.35f);
+        private readonly static Vector3 TowerWindows2Pos = new Vector3(34.91f, 1014.75f, -30.75f);
+        private readonly static Vector3 TowerWindows3Pos = new Vector3(37.8f, 1014.75f, -36f);
+        private readonly static Vector3 TowerWindows4Pos = new Vector3(40.4f, 1014.75f, -36f);
+        private readonly static Vector3 TowerPlaneScale = new Vector3(0.25f, 0.25f, 0.25f);
 
         // Because the plane primitive is a one way we spawn two facing both directions
         // This could technically be configured to only spawn one window and allow
         // Tutorial to look out.
-        public static void SpawnWindowBlockers()
+        private static void SpawnWindowBlockers()
         {
             Log.Debug("Spawning window blockers.");
 
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_1_POS, new Vector3(0, 0, 90), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_1_POS, new Vector3(0, 0, -90), TOWER_PLANE_SCALE);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows1Pos, new Vector3(0, 0, 90), TowerPlaneScale);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows1Pos, new Vector3(0, 0, -90), TowerPlaneScale);
 
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_2_POS, new Vector3(0, 0, 90), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_2_POS, new Vector3(0, 0, -90), TOWER_PLANE_SCALE);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows2Pos, new Vector3(0, 0, 90), TowerPlaneScale);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows2Pos, new Vector3(0, 0, -90), TowerPlaneScale);
 
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_3_POS, new Vector3(90, 0, 0), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_3_POS, new Vector3(-90, 0, 0), TOWER_PLANE_SCALE);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows3Pos, new Vector3(90, 0, 0), TowerPlaneScale);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows3Pos, new Vector3(-90, 0, 0), TowerPlaneScale);
 
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_4_POS, new Vector3(90, 0, 0), TOWER_PLANE_SCALE);
-            Primitive.Create(PrimitiveType.Plane, TOWER_WINDOWS_4_POS, new Vector3(-90, 0, 0), TOWER_PLANE_SCALE);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows4Pos, new Vector3(90, 0, 0), TowerPlaneScale);
+            Primitive.Create(PrimitiveType.Plane, TowerWindows4Pos, new Vector3(-90, 0, 0), TowerPlaneScale);
         }
 
         public static void OnRoundStarted()

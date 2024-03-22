@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features.Pools;
 using HarmonyLib;
+using JetBrains.Annotations;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp049;
 
 namespace SpectatorDisabler.Patches
 {
     [HarmonyPatch]
-    internal class Scp049ResurrectOnRoleChangedPatch
+    internal static class Scp049ResurrectOnRoleChangedPatch
     {
+        [UsedImplicitly]
         private static IEnumerable<MethodBase> TargetMethods()
         {
             var generatedFunctions = AccessTools.Inner(typeof(Scp049ResurrectAbility), "<>c");
@@ -25,8 +23,10 @@ namespace SpectatorDisabler.Patches
 
         /// <summary>
         ///     This transpiler adds the following condition:
-        ///     <code>if (newRole.RoleTypeId == RoleTypeId.Tutorial)</code>
-        ///     <code>  return;</code>
+        ///     <code>
+        ///         if (newRole.RoleTypeId == RoleTypeId.Tutorial)
+        ///             return;
+        ///     </code>
         ///     to the lambda function that gets called when PlayerRoleManager.OnRoleChanged gets fired.
         ///     This means that the DeadZombies is not modified when changing to tutorial, allowing
         ///     SCP-049 to keep track of zombies that were just called.
@@ -41,10 +41,11 @@ namespace SpectatorDisabler.Patches
         /// <returns>
         ///     The new patched <see cref="CodeInstruction" />s of the lambda function.
         /// </returns>
+        [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
-            Label jumpLabel = generator.DefineLabel();
+            var jumpLabel = generator.DefineLabel();
 
             newInstructions.InsertRange(0, new[]
             {
