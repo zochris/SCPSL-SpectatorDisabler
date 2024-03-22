@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 6.0.x
 
@@ -25,12 +25,12 @@ jobs:
       run: dotnet restore
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.10.2
+      uses: gittools/actions/gitversion/setup@v1.1.1
       with:
         versionSpec: '5.x'
 
     - name: Use GitVersion
-      uses: gittools/actions/gitversion/execute@v0.10.2
+      uses: gittools/actions/gitversion/execute@v1.1.1
       id: gitversion
       with:
         additionalArguments: '/updateprojectfiles'
@@ -39,7 +39,7 @@ jobs:
       run: dotnet build --no-restore -c Release
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: artifact
         path: Spectator-Disabler/bin/Release/net48/SpectatorDisabler-${{ steps.gitversion.outputs.assemblySemVer }}.dll
@@ -52,21 +52,21 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v0.10.2
+      uses: gittools/actions/gitversion/setup@v1.1.1
       with:
           versionSpec: '5.x'
 
     - name: Use GitVersion
       id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.10.2
+      uses: gittools/actions/gitversion/execute@v1.1.1
 
     - name: Download a Build Artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: artifact
 
@@ -76,7 +76,7 @@ jobs:
         cat release-message.txt
 
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.gitversion.outputs.majorMinorPatch }}
         name: Release ${{ steps.gitversion.outputs.majorMinorPatch }}

@@ -24,7 +24,7 @@ Please [open an issue](https://github.com/zochris/SCPSL-SpectatorDisabler/issues
 
 - Checkout the code
 - Make your changes
-- Run `msbuild` to build (Output will be in `Specator-Disabler/bin/Debug/`)
+- Run `msbuild` or `dotnet build` to build (Output will be in `Specator-Disabler/bin/Debug/`)
 
 ### Coding conventions
 
@@ -36,11 +36,7 @@ Read the existing code and most things will be apparent. Some things to note:
 
 ### Testing
 
-For testing you will need at least two players. Please test the following scenarios:
-
-- Dying by any means puts the player into the tutorial role
-- A dead player can respawn as MTF and Chaos
-- A recently killed player can be revived by SCP-049 and spawns as a zombie
+See the [testing document](Testing.md) for instructions on how and what to test.
 
 ### Submitting changes
 
