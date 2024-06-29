@@ -19,5 +19,5 @@ Some test require more than one player and are marked with a remark.
 
 - A recently killed player can be revived by SCP-049 and spawns as a zombie
   - Requires 2 players
-- A zombie recently killed by another player can be revived up to 3 times
+- A zombie recently killed by another player can be revived one time
   - Requires 3 players (SCP-049, human to be revived, human that kills zombie)
