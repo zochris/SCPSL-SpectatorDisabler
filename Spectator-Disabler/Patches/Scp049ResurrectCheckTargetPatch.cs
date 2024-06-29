@@ -8,21 +8,29 @@ using PlayerRoles.PlayableScps.Scp049;
 
 namespace SpectatorDisabler.Patches
 {
-    [HarmonyPatch(typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.ServerValidateAny))]
+    [HarmonyPatch(typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.IsSpawnableSpectator))]
     internal static class Scp049ResurrectCheckTargetPatch
     {
         /// <summary>
-        ///     This transpiler replaces the following condition:
-        ///     <code>ownerHub.roleManager.CurrentRole is SpectatorRole</code>
+        ///     This transpiler replaces the following code:
+        ///     <code>
+        ///         if (hub.roleManager.CurrentRole is SpectatorRole spectatorRole)
+        ///         {
+        ///             return spectatorRole.ReadyToRespawn;
+        ///         }
+        ///         return false;
+        ///     </code>
         ///     With this one:
-        ///     <code>ownerHub.roleManager.CurrentRole.RoleTypeId == RoleTypeId.Tutorial</code>
+        ///     <code>
+        ///         return hub.roleManager.CurrentRole.RoleTypeId == RoleTypeId.Tutorial
+        ///     </code>
         /// </summary>
         /// <param name="instructions">
         ///     The <see cref="CodeInstruction" />s of the original
-        ///     <see cref="Scp049ResurrectAbility.ServerValidateAny" /> method.
+        ///     <see cref="Scp049ResurrectAbility.IsSpawnableSpectator" /> method.
         /// </param>
         /// <returns>
-        ///     The new patched <see cref="CodeInstruction" />s of the <see cref="Scp049ResurrectAbility.ServerValidateAny" />
+        ///     The new patched <see cref="CodeInstruction" />s of the <see cref="Scp049ResurrectAbility.IsSpawnableSpectator" />
         ///     method.
         /// </returns>
         [UsedImplicitly]
@@ -35,16 +43,16 @@ namespace SpectatorDisabler.Patches
                 if (newInstructions[i].opcode == OpCodes.Isinst
                     && newInstructions[i - 1].opcode == OpCodes.Callvirt
                     && newInstructions[i - 2].opcode == OpCodes.Ldfld
-                    && newInstructions[i - 3].opcode == OpCodes.Ldloc_0)
+                    && newInstructions[i - 3].opcode == OpCodes.Ldarg_0)
                 {
                     yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId)));
                     yield return new CodeInstruction(OpCodes.Ldc_I4_S, 14);
                     yield return new CodeInstruction(OpCodes.Ceq);
+                    yield return new CodeInstruction(OpCodes.Ret);
+                    yield break;
                 }
-                else
-                {
-                    yield return newInstructions[i];
-                }
+
+                yield return newInstructions[i];
             }
 
             ListPool<CodeInstruction>.Pool.Return(newInstructions);

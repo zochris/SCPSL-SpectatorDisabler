@@ -18,7 +18,7 @@ namespace SpectatorDisabler
 
         public override string Author => "zochris";
         public override string Name => "SpectatorDisabler";
-        public override Version RequiredExiledVersion { get; } = new Version(8, 8, 0);
+        public override Version RequiredExiledVersion { get; } = new Version(8, 9, 6);
         public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public override void OnDisabled()
