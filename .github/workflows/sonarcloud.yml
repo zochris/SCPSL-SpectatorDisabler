@@ -1,12 +1,11 @@
 name: SonarCloud
 on:
   push:
-    branches:
-      - develop
+    branches: [ main ]
   pull_request_target:
     types: [opened, synchronize, reopened]
 jobs:
-  build:
+  sonar:
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
