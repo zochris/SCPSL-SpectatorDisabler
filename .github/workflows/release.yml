@@ -1,0 +1,30 @@
+name: Create release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseMessage:
+        required: true
+        description: The message posted to the release.
+
+jobs:
+  build:
+    uses: ./.github/workflows/ci-build.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ fromJSON(needs.build.outputs.gitversion).majorMinorPatch }}
+          name: Release ${{ fromJSON(needs.build.outputs.gitversion).majorMinorPatch }}
+          body: "${{ github.event.inputs.releaseMessage }}"
+          files: SpectatorDisabler-${{ fromJSON(needs.build.outputs.gitversion).assemblySemVer }}.dll
