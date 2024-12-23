@@ -45,14 +45,16 @@ namespace SpectatorDisabler.Tower
         private readonly static WallWeaponSpawn[] WeaponsToSpawn = {
             new WallWeaponSpawn(ItemType.GunCOM15, new Vector3(0, 0, 0), new Vector3(0, -0.1f, 0)),
             new WallWeaponSpawn(ItemType.GunCOM18, new Vector3(0, 0, 0), new Vector3(-0.03f, 0, -0.1f)),
-            new WallWeaponSpawn(ItemType.GunRevolver, new Vector3(0, 180, 0), new Vector3(0, 0, 0)),
+            new WallWeaponSpawn(ItemType.GunRevolver, new Vector3(0, 90, 0), new Vector3(0, 0, 0)),
             new WallWeaponSpawn(ItemType.GunFSP9, new Vector3(0, 180, 0), new Vector3(0, -0.02f, 0.1f)),
             new WallWeaponSpawn(ItemType.GunCrossvec, new Vector3(0, 180, 0), new Vector3(0, 0, 0)),
             new WallWeaponSpawn(ItemType.GunE11SR, new Vector3(0, 180, 0), new Vector3(0, -0.05f, 0.2f)),
-            new WallWeaponSpawn(ItemType.GunAK, new Vector3(0, 0, 90), new Vector3(0, 0.07f, 0)),
+            new WallWeaponSpawn(ItemType.GunAK, new Vector3(0, 0, 0), new Vector3(0, 0.07f, 0)),
             new WallWeaponSpawn(ItemType.GunShotgun, new Vector3(0, 0, 0), new Vector3(0, -0.1f, 0)),
             new WallWeaponSpawn(ItemType.GunFRMG0, new Vector3(0, 180, 0), new Vector3(0, -0.1f, 0)),
             new WallWeaponSpawn(ItemType.GunLogicer, new Vector3(0, -90, 0), new Vector3(0, 0, 0.1f)),
+            new WallWeaponSpawn(ItemType.GunA7, new Vector3(0, 0, 0), new Vector3(0, 0.07f, 0)),
+            new WallWeaponSpawn(ItemType.GunCom45, new Vector3(0, 0, 0), new Vector3(0, 0, 0))
         };
 
         private static void SpawnWorkbench()
@@ -106,7 +108,7 @@ namespace SpectatorDisabler.Tower
                 );
 
                 yOffset++;
-                if (yOffset >= 5)
+                if (yOffset >= WeaponsToSpawn.Length / 2)
                 {
                     zOffset++;
                     yOffset = 0;
@@ -135,8 +137,10 @@ namespace SpectatorDisabler.Tower
                 {
                     weaponInInventory.AddAttachment(preferences);
                 }
-                weaponInInventory.Ammo = 0;
-                weaponInInventory.MaxAmmo = 0;
+                weaponInInventory.BarrelAmmo = 0;
+                weaponInInventory.MagazineAmmo = 0;
+                weaponInInventory.MaxBarrelAmmo = 0;
+                weaponInInventory.MaxMagazineAmmo = 0;
             }
             args.IsAllowed = false;
         }
