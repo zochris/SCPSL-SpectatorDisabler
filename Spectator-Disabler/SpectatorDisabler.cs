@@ -18,15 +18,12 @@ namespace SpectatorDisabler
 
         public override string Author => "zochris";
         public override string Name => "SpectatorDisabler";
-        public override Version RequiredExiledVersion { get; } = new Version(8, 13, 1);
+        public override Version RequiredExiledVersion { get; } = new Version(9, 0, 1);
         public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public override void OnDisabled()
         {
-            if (HarmonyInstance != null || HarmonyInstance != default)
-            {
-                HarmonyInstance.UnpatchAll();
-            }
+            HarmonyInstance?.UnpatchAll();
 
             UnregisterEvents();
 
