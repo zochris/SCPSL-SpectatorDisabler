@@ -4,12 +4,12 @@ using Exiled.API.Features.Pools;
 using HarmonyLib;
 using JetBrains.Annotations;
 using PlayerRoles;
-using Respawning;
+using Respawning.Waves;
 
 namespace SpectatorDisabler.Patches
 {
-    [HarmonyPatch(typeof(RespawnManager), nameof(RespawnManager.CheckSpawnable))]
-    internal static class RespawnManagerPatch
+    [HarmonyPatch(typeof(WaveSpawner), nameof(WaveSpawner.CanBeSpawned))]
+    internal static class WaveSpawnerPatch
     {
         /// <summary>
         ///     This transpiler replaces this:
@@ -27,9 +27,9 @@ namespace SpectatorDisabler.Patches
         /// </summary>
         /// <param name="instructions">
         ///     The <see cref="CodeInstruction" />s of the original
-        ///     <see cref="RespawnManager.CheckSpawnable" /> method.
+        ///     <see cref="WaveSpawner.CheckSpawnable" /> method.
         /// </param>
-        /// <returns>The new patched <see cref="CodeInstruction" />s of the <see cref="RespawnManager.CheckSpawnable" /> method.</returns>
+        /// <returns>The new patched <see cref="CodeInstruction" />s of the <see cref="WaveSpawner.CheckSpawnable" /> method.</returns>
         [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {

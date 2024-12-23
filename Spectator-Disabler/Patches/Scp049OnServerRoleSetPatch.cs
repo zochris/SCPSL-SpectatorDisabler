@@ -15,7 +15,7 @@ namespace SpectatorDisabler.Patches
         private static IEnumerable<MethodBase> TargetMethods()
         {
             var generatedFunctions = AccessTools.Inner(typeof(Scp049ResurrectAbility), "<>c");
-            var lambdaFunction = AccessTools.Method(generatedFunctions, "<Init>b__22_0");
+            var lambdaFunction = AccessTools.Method(generatedFunctions, "<Init>b__29_0");
 
             yield return lambdaFunction;
         }
