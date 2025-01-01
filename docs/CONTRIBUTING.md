@@ -43,7 +43,7 @@ See the [testing document](Testing.md) for instructions on how and what to test.
 - Fork this repository
 - Create a branch in your fork of this repository
 - Push changes to your branch
-- Submit a Pull-Request against the develop-branch of this repository
+- Submit a Pull-Request against the main-branch of this repository
 
 ## Code of Conduct
 
