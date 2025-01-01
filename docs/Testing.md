@@ -31,4 +31,5 @@ Some test require more than one player and are marked with a remark.
   - Requires 2 players
 - Players in the tutorial role can communicate with each other
   - Requires 2 players
+- When starting/stopping SCP-1576 a message is displayed for all players in the tutorial role
 
