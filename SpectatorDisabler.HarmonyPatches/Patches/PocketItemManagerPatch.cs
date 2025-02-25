@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp106;
 
-namespace SpectatorDisabler.Patches;
+namespace SpectatorDisabler.HarmonyPatches.Patches;
 
 [HarmonyPatch(typeof(Scp106PocketItemManager), nameof(Scp106PocketItemManager.GetRandomValidSpawnPosition))]
 internal static class PocketItemManagerPatch

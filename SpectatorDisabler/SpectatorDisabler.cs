@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Exiled.API.Features;
-using HarmonyLib;
+using SpectatorDisabler.HarmonyPatches;
 using SpectatorDisabler.Tower;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
@@ -11,9 +11,7 @@ namespace SpectatorDisabler;
 
 public class SpectatorDisabler : Plugin<Config>
 {
-    private static int _harmonyCounter;
-
-    private static Harmony? HarmonyInstance { get; set; }
+    private static HarmonyWrapper? Harmony { get; set; }
 
     public override string Author => "zochris";
 
@@ -25,7 +23,7 @@ public class SpectatorDisabler : Plugin<Config>
 
     public override void OnDisabled()
     {
-        HarmonyInstance?.UnpatchAll();
+        Harmony?.Disable();
 
         UnregisterEvents();
 
@@ -34,8 +32,8 @@ public class SpectatorDisabler : Plugin<Config>
 
     public override void OnEnabled()
     {
-        HarmonyInstance = new Harmony($"{Name}{_harmonyCounter++}");
-        HarmonyInstance.PatchAll();
+        Harmony = new HarmonyWrapper(Name, new HarmonyHelper());
+        Harmony.Enable();
 
         RegisterEvents();
 

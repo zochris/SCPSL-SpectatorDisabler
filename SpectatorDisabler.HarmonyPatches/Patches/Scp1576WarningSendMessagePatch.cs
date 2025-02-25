@@ -1,25 +1,22 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection.Emit;
-using Exiled.API.Features;
 using HarmonyLib;
 using InventorySystem.Items.Usables.Scp1576;
 using JetBrains.Annotations;
 using PlayerRoles;
 
-namespace SpectatorDisabler.Patches;
+namespace SpectatorDisabler.HarmonyPatches.Patches;
 
 [HarmonyPatch(typeof(Scp1576SpectatorWarningHandler), nameof(Scp1576SpectatorWarningHandler.SendMessage))]
 internal static class Scp1576WarningSendMessagePatch
 {
+    public static IHarmonyHelper? Helper { get; set; }
+
     public static void BroadcastWarningMessage(bool isStopping)
     {
-        var tutorials = Player.List.Where(player => player.ReferenceHub.GetRoleId() == RoleTypeId.Tutorial);
-
-        foreach (var tutorial in tutorials)
-        {
-            tutorial.Broadcast(5, isStopping ? "SCP-1576 is finished" : "SCP-1576 is about to be used");
-        }
+        var message = isStopping ? "SCP-1576 is finished" : "SCP-1576 is about to be used";
+        const ushort messageDuration = 5;
+        Helper?.SendMessage(message, messageDuration, RoleTypeId.Tutorial);
     }
 
     /// <summary>

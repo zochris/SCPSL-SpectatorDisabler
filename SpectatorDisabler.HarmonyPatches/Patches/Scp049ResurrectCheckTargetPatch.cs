@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp049;
 
-namespace SpectatorDisabler.Patches;
+namespace SpectatorDisabler.HarmonyPatches.Patches;
 
 [HarmonyPatch(typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.IsSpawnableSpectator))]
 internal static class Scp049ResurrectCheckTargetPatch

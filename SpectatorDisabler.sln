@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30021.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler", "SpectatorDisabler\SpectatorDisabler.csproj", "{20B3FEE5-69F6-4E11-A1C4-5CCD3BA30043}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler.LabApi", "SpectatorDisabler.LabApi\SpectatorDisabler.LabApi.csproj", "{78526043-9AFC-465E-B22A-6A7E00BC70EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler.HarmonyPatches", "SpectatorDisabler.HarmonyPatches\SpectatorDisabler.HarmonyPatches.csproj", "{61122880-0D2A-4A55-85EE-B479D4A89FFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{20B3FEE5-69F6-4E11-A1C4-5CCD3BA30043}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20B3FEE5-69F6-4E11-A1C4-5CCD3BA30043}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20B3FEE5-69F6-4E11-A1C4-5CCD3BA30043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78526043-9AFC-465E-B22A-6A7E00BC70EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78526043-9AFC-465E-B22A-6A7E00BC70EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78526043-9AFC-465E-B22A-6A7E00BC70EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78526043-9AFC-465E-B22A-6A7E00BC70EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

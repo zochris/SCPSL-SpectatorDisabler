@@ -6,7 +6,7 @@ using PlayerRoles;
 using PlayerRoles.Voice;
 using VoiceChat;
 
-namespace SpectatorDisabler.Patches;
+namespace SpectatorDisabler.HarmonyPatches.Patches;
 
 [HarmonyPatch(typeof(HumanVoiceModule), nameof(HumanVoiceModule.ValidateSend))]
 internal static class HumanVoiceModuleValidateSendPatch

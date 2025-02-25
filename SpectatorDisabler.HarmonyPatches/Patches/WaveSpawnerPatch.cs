@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using PlayerRoles;
 using Respawning.Waves;
 
-namespace SpectatorDisabler.Patches;
+namespace SpectatorDisabler.HarmonyPatches.Patches;
 
 [HarmonyPatch(typeof(WaveSpawner), nameof(WaveSpawner.CanBeSpawned))]
 internal static class WaveSpawnerPatch
