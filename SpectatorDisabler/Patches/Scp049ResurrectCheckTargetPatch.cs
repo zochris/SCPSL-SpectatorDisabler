@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using Exiled.API.Features.Pools;
 using HarmonyLib;
 using JetBrains.Annotations;
 using PlayerRoles;
@@ -36,26 +35,24 @@ namespace SpectatorDisabler.Patches
         [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
+            var codeMatcher = new CodeMatcher(instructions);
 
-            for (var i = 0; i < newInstructions.Count; i++)
-            {
-                if (newInstructions[i].opcode == OpCodes.Isinst
-                    && newInstructions[i - 1].opcode == OpCodes.Callvirt
-                    && newInstructions[i - 2].opcode == OpCodes.Ldfld
-                    && newInstructions[i - 3].opcode == OpCodes.Ldarg_0)
-                {
-                    yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId)));
-                    yield return new CodeInstruction(OpCodes.Ldc_I4_S, 14);
-                    yield return new CodeInstruction(OpCodes.Ceq);
-                    yield return new CodeInstruction(OpCodes.Ret);
-                    yield break;
-                }
+            codeMatcher
+                .MatchStartForward(
+                    new CodeMatch(OpCodes.Isinst),
+                    new CodeMatch(OpCodes.Stloc_0),
+                    new CodeMatch(OpCodes.Ldloc_0),
+                    new CodeMatch(OpCodes.Brfalse_S)
+                )
+                .RemoveInstructions(4)
+                .InsertAndAdvance(
+                    new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
+                    new CodeInstruction(OpCodes.Ceq),
+                    new CodeInstruction(OpCodes.Ret)
+                );
 
-                yield return newInstructions[i];
-            }
-
-            ListPool<CodeInstruction>.Pool.Return(newInstructions);
+            return codeMatcher.Instructions();
         }
     }
 }
