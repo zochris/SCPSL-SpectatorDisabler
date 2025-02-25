@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using Exiled.API.Features.Pools;
 using HarmonyLib;
 using JetBrains.Annotations;
 using PlayerRoles;
@@ -44,28 +43,25 @@ namespace SpectatorDisabler.Patches
         [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
-            var jumpLabel = generator.DefineLabel();
+            var codeMatcher = new CodeMatcher(instructions, generator);
 
-            newInstructions.InsertRange(0, new[]
-            {
-                new CodeInstruction(OpCodes.Ldarg_3),
-                new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
-                new CodeInstruction(OpCodes.Ldc_I4_S, 14),
-                new CodeInstruction(OpCodes.Ceq),
-                new CodeInstruction(OpCodes.Brfalse, jumpLabel),
-                new CodeInstruction(OpCodes.Ret),
-            });
-            // Add a jump to right after the ret
-            newInstructions[6].labels.Add(jumpLabel);
+            codeMatcher
+                .MatchStartForward(
+                    new CodeMatch(OpCodes.Ldarg_2),
+                    new CodeMatch(OpCodes.Isinst),
+                    new CodeMatch(OpCodes.Brfalse_S)
+                )
+                .CreateLabel(out var originalCode)
+                .InsertAndAdvance(
+                    new CodeInstruction(OpCodes.Ldarg_3),
+                    new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
+                    new CodeInstruction(OpCodes.Ceq),
+                    new CodeInstruction(OpCodes.Brfalse, originalCode),
+                    new CodeInstruction(OpCodes.Ret)
+                );
 
-
-            foreach (var instruction in newInstructions)
-            {
-                yield return instruction;
-            }
-
-            ListPool<CodeInstruction>.Pool.Return(newInstructions);
+            return codeMatcher.Instructions();
         }
     }
 }

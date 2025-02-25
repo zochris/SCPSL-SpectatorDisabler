@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using Exiled.API.Features.Pools;
 using HarmonyLib;
 using JetBrains.Annotations;
 using PlayerRoles;
@@ -27,35 +26,24 @@ namespace SpectatorDisabler.Patches
         /// </summary>
         /// <param name="instructions">
         ///     The <see cref="CodeInstruction" />s of the original
-        ///     <see cref="WaveSpawner.CheckSpawnable" /> method.
+        ///     <see cref="WaveSpawner.CanBeSpawned" /> method.
         /// </param>
-        /// <returns>The new patched <see cref="CodeInstruction" />s of the <see cref="WaveSpawner.CheckSpawnable" /> method.</returns>
+        /// <returns>The new patched <see cref="CodeInstruction" />s of the <see cref="WaveSpawner.CanBeSpawned" /> method.</returns>
         [UsedImplicitly]
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
+            var codeMatcher = new CodeMatcher(instructions);
 
-            const int offset = -3;
-            var index = newInstructions.FindIndex(instruction => instruction.opcode == OpCodes.Brfalse_S) + offset;
+            codeMatcher
+                .MatchStartForward(new CodeMatch(OpCodes.Isinst))
+                .RemoveInstructions(codeMatcher.Remaining)
+                .InsertAndAdvance(
+                    new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
+                    new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
+                    new CodeInstruction(OpCodes.Ceq),
+                    new CodeInstruction(OpCodes.Ret));
 
-            newInstructions.RemoveRange(index, 9);
-
-            newInstructions.InsertRange(index,
-                                        new[]
-                                        {
-                                            new CodeInstruction(OpCodes.Callvirt,
-                                                                AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
-                                            new CodeInstruction(OpCodes.Ldc_I4_S, 14),
-                                            new CodeInstruction(OpCodes.Ceq),
-                                            new CodeInstruction(OpCodes.Ret)
-                                        });
-
-            foreach (var instruction in newInstructions)
-            {
-                yield return instruction;
-            }
-
-            ListPool<CodeInstruction>.Pool.Return(newInstructions);
+            return codeMatcher.Instructions();
         }
     }
 }
