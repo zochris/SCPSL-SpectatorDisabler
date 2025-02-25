@@ -6,11 +6,13 @@
         <AssemblyTitle>SpectatorDisabler</AssemblyTitle>
         <AssemblyVersion>0.1.0.0</AssemblyVersion>
         <AssemblyName>$(AssemblyTitle)-$(AssemblyVersion)</AssemblyName>
+        <LangVersion>13</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ExMod.Exiled" Version="9.2.1" />
-        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+        <PackageReference Include="ExMod.Exiled" Version="9.6.0-beta5" />
+        <PackageReference Include="Lib.Harmony" Version="2.2.2"/>
     </ItemGroup>
 
     <ItemGroup>

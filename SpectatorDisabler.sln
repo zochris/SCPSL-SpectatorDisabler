@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30021.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectator-Disabler", "Spectator-Disabler\Spectator-Disabler.csproj", "{20B3FEE5-69F6-4E11-A1C4-5CCD3BA30043}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler", "SpectatorDisabler\SpectatorDisabler.csproj", "{20B3FEE5-69F6-4E11-A1C4-5CCD3BA30043}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
