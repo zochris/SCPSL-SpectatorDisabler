@@ -14,11 +14,11 @@ namespace SpectatorDisabler
     {
         private static int _harmonyCounter;
 
-        private static Harmony HarmonyInstance { get; set; }
+        private static Harmony? HarmonyInstance { get; set; }
 
         public override string Author => "zochris";
         public override string Name => "SpectatorDisabler";
-        public override Version RequiredExiledVersion { get; } = new Version(9, 2, 1);
+        public override Version RequiredExiledVersion { get; } = new(9, 6, 0);
         public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
         public override void OnDisabled()
@@ -46,7 +46,7 @@ namespace SpectatorDisabler
 
             Player.Spawned += EventHandler.OnPlayerSpawning;
             Scp049.FinishingRecall += EventHandler.OnFinishingRecall;
-            if (Config.TowerWorkbench) 
+            if (Config.TowerWorkbench)
             {
                 Server.RoundStarted += TowerBench.OnRoundStarted;
                 Item.ChangingAttachments += TowerBench.OnAttachmentChange;
