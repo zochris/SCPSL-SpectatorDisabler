@@ -6,32 +6,31 @@ using Exiled.Events.EventArgs.Scp049;
 using MEC;
 using PlayerRoles;
 
-namespace SpectatorDisabler
+namespace SpectatorDisabler;
+
+public static class EventHandler
 {
-    public static class EventHandler
+    public static void OnPlayerSpawning(SpawnedEventArgs ev)
     {
-        public static void OnPlayerSpawning(SpawnedEventArgs ev)
+        if (ev.Player.Role == RoleTypeId.Spectator)
         {
-            if (ev.Player.Role == RoleTypeId.Spectator)
-            {
-                Timing.CallDelayed(1, () => { ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.UseSpawnpoint); });
-            }
-
-            if (ev.Reason == SpawnReason.Revived)
-            {
-                var scp = Player.List.FirstOrDefault(player => player.Role == RoleTypeId.Scp049);
-
-                if (scp != null)
-                {
-                    ev.Player.Position = scp.Position;
-                }
-            }
+            Timing.CallDelayed(1, () => { ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.UseSpawnpoint); });
         }
 
-        public static void OnFinishingRecall(FinishingRecallEventArgs ev)
+        if (ev.Reason == SpawnReason.Revived)
         {
-            // This should default to true, but for some reason it does not
-            ev.IsAllowed = true;
+            var scp = Player.List.FirstOrDefault(player => player.Role == RoleTypeId.Scp049);
+
+            if (scp != null)
+            {
+                ev.Player.Position = scp.Position;
+            }
         }
+    }
+
+    public static void OnFinishingRecall(FinishingRecallEventArgs ev)
+    {
+        // This should default to true, but for some reason it does not
+        ev.IsAllowed = true;
     }
 }
