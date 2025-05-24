@@ -47,18 +47,16 @@ internal static class Scp049ResurrectOnRoleChangedPatch
 
         codeMatcher
             .MatchStartForward(
-                new CodeMatch(OpCodes.Ldarg_2),
+                new CodeMatch(OpCodes.Ldarg_3),
                 new CodeMatch(OpCodes.Isinst),
                 new CodeMatch(OpCodes.Brfalse_S)
             )
-            .CreateLabel(out var originalCode)
+            .RemoveInstructions(2)
             .InsertAndAdvance(
                 new CodeInstruction(OpCodes.Ldarg_3),
                 new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
                 new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
-                new CodeInstruction(OpCodes.Ceq),
-                new CodeInstruction(OpCodes.Brfalse, originalCode),
-                new CodeInstruction(OpCodes.Ret)
+                new CodeInstruction(OpCodes.Ceq)
             );
 
         return codeMatcher.Instructions();
