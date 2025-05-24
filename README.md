@@ -4,12 +4,14 @@
 When a player dies they are put into the tutorial role to prevent them from spectating the other players. This stops them from respawning with the knowledge of who is still alive and where they currently are.
 
 ## Installation
-- Make sure you have the [EXILED framework](https://github.com/ExMod-Team/EXILED) installed
+- Make sure you have the [EXILED framework](https://github.com/ExSLMod-Team/EXILED) installed
 - Download the latest [release](https://github.com/zochris/SCPSL-SpectatorDisabler/releases)
 - Drop the .dll into your `%appdata%\EXILED\Plugins` directory (`~/.config/EXILED/Plugins` if on Linux)
 - Restart or reload your server
 
 ## Configuration
+
+The following options can be configured in `%appdata%\EXILED\Configs\Plugins\spectator_disabler\7777.yml` or `~/.config/EXILED/Configs/Plugins/spectator_disabler/7777.yml`.
 
 | Name                    | Type    | Default Value | Description                                              |
 | ----------------------- | ------- | ------------- | -------------------------------------------------------- |
@@ -22,11 +24,12 @@ When a player dies they are put into the tutorial role to prevent them from spec
 
 These settings ensure the best gameplay experience when using the SpectatorDisabler.
 
-They can be found in `%appdata%\EXILED\Configs\7777-config.yml` or `~/.config/EXILED/Configs/7777-config.yml`.
+They can be found in `%appdata%\EXILED\Configs\Plugins\exiled_events\7777.yml` or `~/.config/EXILED/Configs/Plugins/exiled_events/7777.yml`.
 
 - `can_tutorial_block_scp173: false`: Prevent tutorials from blocking SCP-173
 - `can_tutorial_trigger_scp096: false`: Prevent tutorials from triggering SCP-096
 - `can_scp049_sense_tutorial: false`: Prevent SCP-049 from sensing tutorials
+- `tutorial_not_affected_by_scp079_scan: true`: Prevent tutorial from being affected by SCP-079 scan.
 
 ## Compatibility
 
