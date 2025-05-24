@@ -27,10 +27,4 @@ public static class EventHandler
             }
         }
     }
-
-    public static void OnFinishingRecall(FinishingRecallEventArgs ev)
-    {
-        // This should default to true, but for some reason it does not
-        ev.IsAllowed = true;
-    }
 }

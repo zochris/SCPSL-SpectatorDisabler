@@ -48,7 +48,6 @@ public class SpectatorDisabler : Plugin<Config>
         Log.Debug("Setting up event handler");
 
         Player.Spawned += EventHandler.OnPlayerSpawning;
-        Scp049.FinishingRecall += EventHandler.OnFinishingRecall;
 
         if (Config.TowerWorkbench)
         {
@@ -67,7 +66,6 @@ public class SpectatorDisabler : Plugin<Config>
     private void UnregisterEvents()
     {
         Player.Spawned -= EventHandler.OnPlayerSpawning;
-        Scp049.FinishingRecall -= EventHandler.OnFinishingRecall;
 
         if (Config.TowerWorkbench)
         {
