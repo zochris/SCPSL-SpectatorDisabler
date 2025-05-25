@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
-using Exiled.API.Features.Pickups;
 using Exiled.Events.EventArgs.Item;
 using Exiled.Events.EventArgs.Player;
-using Mirror;
 using PlayerRoles;
 using UnityEngine;
+using FirearmPickup = Exiled.API.Features.Pickups.FirearmPickup;
+using Pickup = Exiled.API.Features.Pickups.Pickup;
 
 namespace SpectatorDisabler.Tower;
 
@@ -18,11 +18,11 @@ internal static class TowerBench
 
     private const float WeaponSpawnYMargin = -0.35f;
 
-    private readonly static Vector3 BenchSpawnPosition = new(42.93f, 1013.05f, -34.55f);
+    private readonly static Vector3 BenchSpawnPosition = new(42.93f, 315.112f, -34.55f);
 
     private readonly static Vector3 BenchSpawnRotation = new(0f, -90f, 0f);
 
-    private readonly static Vector3 InitialSpawn = new(42.9f, 1015.25f, -31f);
+    private readonly static Vector3 InitialSpawn = new(42.9f, 315.25f, -31f);
 
     private readonly static List<Pickup> WallItems = new();
 
@@ -51,25 +51,12 @@ internal static class TowerBench
     {
         Log.Debug("Instantiating bench.");
 
-        var bench = NetworkClient.prefabs.Values.First(p => p.name.Contains("Work Station"));
+        var bench = PrefabHelper.Spawn(PrefabType.WorkstationStructure, BenchSpawnPosition, Quaternion.Euler(BenchSpawnRotation));
 
-        if (bench == null)
+        if (bench is null)
         {
             Log.Error("Bench prefab not found, not spawning bench in tower!");
-            return;
         }
-
-        bench = Object.Instantiate(bench);
-
-        if (!bench.TryGetComponent(out Transform transform))
-        {
-            Log.Error("Could not get transform component of bench.");
-            return;
-        }
-
-        NetworkServer.Spawn(bench);
-        transform.position = BenchSpawnPosition;
-        transform.Rotate(BenchSpawnRotation);
     }
 
     private static void SpawnWallWeapons()

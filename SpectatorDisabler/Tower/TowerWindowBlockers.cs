@@ -6,13 +6,13 @@ namespace SpectatorDisabler.Tower;
 
 internal static class TowerWindowBlockers
 {
-    private readonly static Vector3 TowerWindows1Pos = new(34.91f, 1014.75f, -33.35f);
+    private readonly static Vector3 TowerWindows1Pos = new(34.91f, 314.75f, -33.35f);
 
-    private readonly static Vector3 TowerWindows2Pos = new(34.91f, 1014.75f, -30.75f);
+    private readonly static Vector3 TowerWindows2Pos = new(34.91f, 314.75f, -30.75f);
 
-    private readonly static Vector3 TowerWindows3Pos = new(37.8f, 1014.75f, -36f);
+    private readonly static Vector3 TowerWindows3Pos = new(37.8f, 314.75f, -36f);
 
-    private readonly static Vector3 TowerWindows4Pos = new(40.4f, 1014.75f, -36f);
+    private readonly static Vector3 TowerWindows4Pos = new(40.4f, 314.75f, -36f);
 
     private readonly static Vector3 TowerPlaneScale = new(0.25f, 0.25f, 0.25f);
 

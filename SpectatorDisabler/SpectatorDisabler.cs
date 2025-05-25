@@ -4,7 +4,6 @@ using Exiled.API.Features;
 using HarmonyLib;
 using SpectatorDisabler.Tower;
 using Player = Exiled.Events.Handlers.Player;
-using Scp049 = Exiled.Events.Handlers.Scp049;
 using Server = Exiled.Events.Handlers.Server;
 using Item = Exiled.Events.Handlers.Item;
 
