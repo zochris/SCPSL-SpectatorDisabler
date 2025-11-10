@@ -56,16 +56,16 @@ jobs:
         run: dotnet restore
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@b82e662a7199df56ac962118e506d9efb9830f82
+        uses: gittools/actions/gitversion/setup@d0139503a9321f76b4a417dfdc8aebcec24decdd
         with:
           versionSpec: '6.x'
 
       - name: Use GitVersion
-        uses: gittools/actions/gitversion/execute@b82e662a7199df56ac962118e506d9efb9830f82
+        uses: gittools/actions/gitversion/execute@d0139503a9321f76b4a417dfdc8aebcec24decdd
         id: gitversion
 
       - name: Use GitVersion to update project
-        uses: gittools/actions/gitversion/command@b82e662a7199df56ac962118e506d9efb9830f82
+        uses: gittools/actions/gitversion/command@d0139503a9321f76b4a417dfdc8aebcec24decdd
         with:
           arguments: '/updateprojectfiles'
 
