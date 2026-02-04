@@ -153,7 +153,7 @@ internal static class TowerBench
         GivenWallItems.Remove(args.Item.Serial);
     }
 
-    public static void OnRoundStarted()
+    public static void OnWaitingForPlayers()
     {
         WallItems.Clear();
         GivenWallItems.Clear();

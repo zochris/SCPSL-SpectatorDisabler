@@ -50,7 +50,7 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config.TowerWorkbench)
         {
-            Server.RoundStarted += TowerBench.OnRoundStarted;
+            Server.WaitingForPlayers += TowerBench.OnWaitingForPlayers;
             Item.ChangingAttachments += TowerBench.OnAttachmentChange;
             Player.DroppingItem += TowerBench.OnDroppingItem;
             Player.PickingUpItem += TowerBench.OnPickingUpItem;
@@ -68,7 +68,7 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config.TowerWorkbench)
         {
-            Server.RoundStarted -= TowerBench.OnRoundStarted;
+            Server.WaitingForPlayers -= TowerBench.OnWaitingForPlayers;
             Item.ChangingAttachments -= TowerBench.OnAttachmentChange;
             Player.DroppingItem -= TowerBench.OnDroppingItem;
             Player.PickingUpItem -= TowerBench.OnPickingUpItem;
