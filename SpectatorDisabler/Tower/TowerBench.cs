@@ -18,7 +18,7 @@ internal static class TowerBench
 
     private const float WeaponSpawnYMargin = -0.35f;
 
-    private readonly static Vector3 BenchSpawnPosition = new(42.93f, 315.112f, -34.55f);
+    private readonly static Vector3 BenchSpawnPosition = new(42.93f, 313.13f, -34.55f);
 
     private readonly static Vector3 BenchSpawnRotation = new(0f, -90f, 0f);
 
@@ -153,7 +153,7 @@ internal static class TowerBench
         GivenWallItems.Remove(args.Item.Serial);
     }
 
-    public static void OnRoundStarted()
+    public static void OnWaitingForPlayers()
     {
         WallItems.Clear();
         GivenWallItems.Clear();

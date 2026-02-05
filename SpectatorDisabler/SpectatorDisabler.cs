@@ -19,7 +19,7 @@ public class SpectatorDisabler : Plugin<Config>
 
     public override string Name => "SpectatorDisabler";
 
-    public override Version RequiredExiledVersion { get; } = new(9, 6, 0);
+    public override Version RequiredExiledVersion { get; } = new(9, 12, 6);
 
     public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
@@ -50,7 +50,7 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config.TowerWorkbench)
         {
-            Server.RoundStarted += TowerBench.OnRoundStarted;
+            Server.WaitingForPlayers += TowerBench.OnWaitingForPlayers;
             Item.ChangingAttachments += TowerBench.OnAttachmentChange;
             Player.DroppingItem += TowerBench.OnDroppingItem;
             Player.PickingUpItem += TowerBench.OnPickingUpItem;
@@ -68,7 +68,7 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config.TowerWorkbench)
         {
-            Server.RoundStarted -= TowerBench.OnRoundStarted;
+            Server.WaitingForPlayers -= TowerBench.OnWaitingForPlayers;
             Item.ChangingAttachments -= TowerBench.OnAttachmentChange;
             Player.DroppingItem -= TowerBench.OnDroppingItem;
             Player.PickingUpItem -= TowerBench.OnPickingUpItem;
