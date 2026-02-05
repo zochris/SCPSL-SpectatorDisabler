@@ -24,7 +24,8 @@ Some test require more than one player and are marked with a remark.
 
 ## Pocket Dimension
 - Items lost in the pocket dimension spawn around players that are not in the tutorial role
-  - Requires 2 players
+  - Requires 3 players (SCP + 2 humanoids), because the last human is killed instantly instead of being
+    put into the pocket dimension
 
 ## SCP-1576 (Phonograph)
 - A player using SCP-1576 can communicate with players in the tutorial role

@@ -28,7 +28,7 @@ internal static class Scp049ResurrectOnRoleChangedPatch
     ///     </code>
     ///     to the lambda function that gets called when PlayerRoleManager.OnRoleChanged gets fired.
     ///     This means that the DeadZombies is not modified when changing to tutorial, allowing
-    ///     SCP-049 to keep track of zombies that were just called.
+    ///     SCP-049 to keep track of zombies that were just killed.
     /// </summary>
     /// <param name="instructions">
     ///     The <see cref="CodeInstruction" />s of the original
@@ -47,16 +47,17 @@ internal static class Scp049ResurrectOnRoleChangedPatch
 
         codeMatcher
             .MatchStartForward(
-                new CodeMatch(OpCodes.Ldarg_3),
-                new CodeMatch(OpCodes.Isinst),
-                new CodeMatch(OpCodes.Brfalse_S)
-            )
-            .RemoveInstructions(2)
+                new  CodeMatch(OpCodes.Call),
+                new CodeMatch(OpCodes.Brtrue_S),
+                new CodeMatch(OpCodes.Ret))
+            .CreateLabel(out var originalCode)
             .InsertAndAdvance(
                 new CodeInstruction(OpCodes.Ldarg_3),
                 new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
                 new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
-                new CodeInstruction(OpCodes.Ceq)
+                new CodeInstruction(OpCodes.Ceq),
+                new CodeInstruction(OpCodes.Brfalse, originalCode),
+                new CodeInstruction(OpCodes.Ret)
             );
 
         return codeMatcher.Instructions();
