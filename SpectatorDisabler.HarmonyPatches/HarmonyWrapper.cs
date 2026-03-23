@@ -13,12 +13,6 @@ public class HarmonyWrapper
         HarmonyId = harmonyId;
 
         Scp1576WarningSendMessagePatch.Helper = helper;
-
-        // FIXME: this is only for testing
-        ServerValidateBegin.Helper = helper;
-        CheckRagdoll.Helper = helper;
-        CheckBeginConditions.Helper = helper;
-        IsResurrectableRole.Helper = helper;
     }
 
     public void Enable()

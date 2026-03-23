@@ -5,6 +5,7 @@ using LabApi.Features;
 using LabApi.Features.Console;
 using LabApi.Loader.Features.Plugins;
 using SpectatorDisabler.HarmonyPatches;
+using SpectatorDisabler.LabApi.Tower;
 
 namespace SpectatorDisabler.LabApi;
 
@@ -23,6 +24,10 @@ public class SpectatorDisabler : Plugin<Config>
     private HarmonyWrapper? Harmony { get; set; }
 
     private SpectatorDisablerHandler SpectatorDisablerHandler { get; } = new();
+
+    private TowerBench TowerBench { get; } = new();
+
+    private TowerWindowBlockers TowerWindowBlockers { get; } = new();
 
     public override void Enable()
     {
@@ -47,43 +52,29 @@ public class SpectatorDisabler : Plugin<Config>
     {
         CustomHandlersManager.RegisterEventsHandler(SpectatorDisablerHandler);
 
-        // Logger.Debug("Setting up event handler");
-        //
-        // Player.Spawned += EventHandler.OnPlayerSpawning;
-        // Scp049.FinishingRecall += EventHandler.OnFinishingRecall;
-        //
-        // if (Config.TowerWorkbench)
-        // {
-        //     Server.RoundStarted += TowerBench.OnRoundStarted;
-        //     Item.ChangingAttachments += TowerBench.OnAttachmentChange;
-        //     Player.DroppingItem += TowerBench.OnDroppingItem;
-        //     Player.PickingUpItem += TowerBench.OnPickingUpItem;
-        // }
-        //
-        // if (Config.TowerWindowBlockers)
-        // {
-        //     Server.RoundStarted += TowerWindowBlockers.OnRoundStarted;
-        // }
+        if (Config?.TowerWorkbench ?? false)
+        {
+            CustomHandlersManager.RegisterEventsHandler(TowerBench);
+        }
+
+        if (Config?.TowerWindowBlockers ?? false)
+        {
+            CustomHandlersManager.RegisterEventsHandler(TowerWindowBlockers);
+        }
     }
 
     private void UnregisterEvents()
     {
         CustomHandlersManager.UnregisterEventsHandler(SpectatorDisablerHandler);
 
-        // Player.Spawned -= EventHandler.OnPlayerSpawning;
-        // Scp049.FinishingRecall -= EventHandler.OnFinishingRecall;
-        //
-        // if (Config.TowerWorkbench)
-        // {
-        //     Server.RoundStarted -= TowerBench.OnRoundStarted;
-        //     Item.ChangingAttachments -= TowerBench.OnAttachmentChange;
-        //     Player.DroppingItem -= TowerBench.OnDroppingItem;
-        //     Player.PickingUpItem -= TowerBench.OnPickingUpItem;
-        // }
-        //
-        // if (Config.TowerWindowBlockers)
-        // {
-        //     Server.RoundStarted -= TowerWindowBlockers.OnRoundStarted;
-        // }
+        if (Config?.TowerWorkbench ?? false)
+        {
+            CustomHandlersManager.UnregisterEventsHandler(TowerBench);
+        }
+
+        if (Config?.TowerWindowBlockers ?? false)
+        {
+            CustomHandlersManager.UnregisterEventsHandler(TowerWindowBlockers);
+        }
     }
 }

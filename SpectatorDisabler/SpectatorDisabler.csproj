@@ -11,8 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ExMod.Exiled" Version="9.6.0" />
-        <PackageReference Include="Lib.Harmony" Version="2.2.2"/>
+        <PackageReference Include="ExMod.Exiled" Version="9.12.6" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,6 +30,10 @@
         <Reference Include="UnityEngine.PhysicsModule">
             <HintPath>..\References\UnityEngine.PhysicsModule.dll</HintPath>
         </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SpectatorDisabler.HarmonyPatches\SpectatorDisabler.HarmonyPatches.csproj" />
     </ItemGroup>
 
 </Project>
