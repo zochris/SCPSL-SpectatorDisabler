@@ -6,12 +6,17 @@ using SpectatorDisabler.Tower;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
 using Item = Exiled.Events.Handlers.Item;
+using Workstation = SpectatorDisabler.Tower.Workstation;
 
 namespace SpectatorDisabler;
 
 public class SpectatorDisabler : Plugin<Config>
 {
     private static HarmonyWrapper? Harmony { get; set; }
+
+    private Workstation Workstation { get; } = new();
+
+    private WindowBlocker WindowBlocker { get; } = new();
 
     public override string Author => "zochris";
 
@@ -48,15 +53,15 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config.TowerWorkbench)
         {
-            Server.WaitingForPlayers += TowerBench.OnWaitingForPlayers;
-            Item.ChangingAttachments += TowerBench.OnAttachmentChange;
-            Player.DroppingItem += TowerBench.OnDroppingItem;
-            Player.PickingUpItem += TowerBench.OnPickingUpItem;
+            Server.WaitingForPlayers += Workstation.OnWaitingForPlayers;
+            Item.ChangingAttachments += Workstation.OnAttachmentChange;
+            Player.DroppingItem += Workstation.OnDroppingItem;
+            Player.PickingUpItem += Workstation.OnPickingUpItem;
         }
 
         if (Config.TowerWindowBlockers)
         {
-            Server.RoundStarted += TowerWindowBlockers.OnRoundStarted;
+            Server.RoundStarted += WindowBlocker.OnRoundStarted;
         }
     }
 
@@ -66,15 +71,15 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config.TowerWorkbench)
         {
-            Server.WaitingForPlayers -= TowerBench.OnWaitingForPlayers;
-            Item.ChangingAttachments -= TowerBench.OnAttachmentChange;
-            Player.DroppingItem -= TowerBench.OnDroppingItem;
-            Player.PickingUpItem -= TowerBench.OnPickingUpItem;
+            Server.WaitingForPlayers -= Workstation.OnWaitingForPlayers;
+            Item.ChangingAttachments -= Workstation.OnAttachmentChange;
+            Player.DroppingItem -= Workstation.OnDroppingItem;
+            Player.PickingUpItem -= Workstation.OnPickingUpItem;
         }
 
         if (Config.TowerWindowBlockers)
         {
-            Server.RoundStarted -= TowerWindowBlockers.OnRoundStarted;
+            Server.RoundStarted -= WindowBlocker.OnRoundStarted;
         }
     }
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler.LabApi", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler.HarmonyPatches", "SpectatorDisabler.HarmonyPatches\SpectatorDisabler.HarmonyPatches.csproj", "{61122880-0D2A-4A55-85EE-B479D4A89FFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectatorDisabler.TowerTools", "SpectatorDisabler.TowerTools\SpectatorDisabler.TowerTools.csproj", "{4689D499-10A5-4AB2-8167-96326741CFBE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61122880-0D2A-4A55-85EE-B479D4A89FFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4689D499-10A5-4AB2-8167-96326741CFBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4689D499-10A5-4AB2-8167-96326741CFBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4689D499-10A5-4AB2-8167-96326741CFBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4689D499-10A5-4AB2-8167-96326741CFBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

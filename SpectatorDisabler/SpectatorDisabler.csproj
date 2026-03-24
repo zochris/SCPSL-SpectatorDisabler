@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ExMod.Exiled" Version="9.12.6" />
+        <PackageReference Include="ExMod.Exiled" Version="9.12.6"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -33,7 +33,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SpectatorDisabler.HarmonyPatches\SpectatorDisabler.HarmonyPatches.csproj" />
+        <ProjectReference Include="..\SpectatorDisabler.HarmonyPatches\SpectatorDisabler.HarmonyPatches.csproj"/>
+        <ProjectReference Include="..\SpectatorDisabler.TowerTools\SpectatorDisabler.TowerTools.csproj"/>
     </ItemGroup>
 
 </Project>

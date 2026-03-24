@@ -47,7 +47,7 @@ internal static class Scp049ResurrectOnRoleChangedPatch
 
         codeMatcher
             .MatchStartForward(
-                new  CodeMatch(OpCodes.Call),
+                new CodeMatch(OpCodes.Call),
                 new CodeMatch(OpCodes.Brtrue_S),
                 new CodeMatch(OpCodes.Ret))
             .CreateLabel(out var originalCode)

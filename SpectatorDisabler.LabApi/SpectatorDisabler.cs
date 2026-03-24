@@ -25,9 +25,9 @@ public class SpectatorDisabler : Plugin<Config>
 
     private SpectatorDisablerHandler SpectatorDisablerHandler { get; } = new();
 
-    private TowerBench TowerBench { get; } = new();
+    private WorkstationEventHandler WorkstationEventHandler { get; } = new();
 
-    private TowerWindowBlockers TowerWindowBlockers { get; } = new();
+    private WindowBlockerEventHandler WindowBlockerEventHandler { get; } = new();
 
     public override void Enable()
     {
@@ -54,12 +54,12 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config?.TowerWorkbench ?? false)
         {
-            CustomHandlersManager.RegisterEventsHandler(TowerBench);
+            CustomHandlersManager.RegisterEventsHandler(WorkstationEventHandler);
         }
 
         if (Config?.TowerWindowBlockers ?? false)
         {
-            CustomHandlersManager.RegisterEventsHandler(TowerWindowBlockers);
+            CustomHandlersManager.RegisterEventsHandler(WindowBlockerEventHandler);
         }
     }
 
@@ -69,12 +69,12 @@ public class SpectatorDisabler : Plugin<Config>
 
         if (Config?.TowerWorkbench ?? false)
         {
-            CustomHandlersManager.UnregisterEventsHandler(TowerBench);
+            CustomHandlersManager.UnregisterEventsHandler(WorkstationEventHandler);
         }
 
         if (Config?.TowerWindowBlockers ?? false)
         {
-            CustomHandlersManager.UnregisterEventsHandler(TowerWindowBlockers);
+            CustomHandlersManager.UnregisterEventsHandler(WindowBlockerEventHandler);
         }
     }
 }
