@@ -2,13 +2,13 @@
 using System.Reflection;
 using Exiled.API.Features;
 using SpectatorDisabler.HarmonyPatches;
-using SpectatorDisabler.Tower;
+using SpectatorDisabler.Exiled.Tower;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
 using Item = Exiled.Events.Handlers.Item;
-using Workstation = SpectatorDisabler.Tower.Workstation;
+using Workstation = SpectatorDisabler.Exiled.Tower.Workstation;
 
-namespace SpectatorDisabler;
+namespace SpectatorDisabler.Exiled;
 
 public class SpectatorDisabler : Plugin<Config>
 {

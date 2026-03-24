@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Exiled.API.Interfaces;
 
-namespace SpectatorDisabler;
+namespace SpectatorDisabler.Exiled;
 
 public class Config : IConfig
 {

@@ -10,7 +10,7 @@ using UnityEngine;
 using FirearmPickup = Exiled.API.Features.Pickups.FirearmPickup;
 using Pickup = Exiled.API.Features.Pickups.Pickup;
 
-namespace SpectatorDisabler.Tower;
+namespace SpectatorDisabler.Exiled.Tower;
 
 internal class Workstation : WorkstationBase
 {

@@ -2,11 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
-        <RootNamespace>SpectatorDisabler</RootNamespace>
         <AssemblyTitle>SpectatorDisabler</AssemblyTitle>
         <AssemblyVersion>0.1.0.0</AssemblyVersion>
         <AssemblyName>$(AssemblyTitle)-$(AssemblyVersion)</AssemblyName>
-        <LangVersion>13</LangVersion>
+        <LangVersion>14</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 

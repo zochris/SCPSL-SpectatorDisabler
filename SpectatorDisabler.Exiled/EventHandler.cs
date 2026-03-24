@@ -5,7 +5,7 @@ using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
 
-namespace SpectatorDisabler;
+namespace SpectatorDisabler.Exiled;
 
 public static class EventHandler
 {

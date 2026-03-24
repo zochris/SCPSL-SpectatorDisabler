@@ -3,7 +3,7 @@ using Exiled.API.Features;
 using PlayerRoles;
 using SpectatorDisabler.HarmonyPatches;
 
-namespace SpectatorDisabler;
+namespace SpectatorDisabler.Exiled;
 
 public class HarmonyHelper : IHarmonyHelper
 {

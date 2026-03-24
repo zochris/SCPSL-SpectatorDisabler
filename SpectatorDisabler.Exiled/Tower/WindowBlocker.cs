@@ -3,7 +3,7 @@ using Exiled.API.Features.Toys;
 using SpectatorDisabler.TowerTools;
 using UnityEngine;
 
-namespace SpectatorDisabler.Tower;
+namespace SpectatorDisabler.Exiled.Tower;
 
 internal class WindowBlocker : WindowBlockerBase
 {
