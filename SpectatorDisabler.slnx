@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="SpectatorDisabler.Exiled/SpectatorDisabler.Exiled.csproj" />
+  <Project Path="SpectatorDisabler.HarmonyPatches/SpectatorDisabler.HarmonyPatches.csproj" />
+  <Project Path="SpectatorDisabler.LabApi/SpectatorDisabler.LabApi.csproj" />
+  <Project Path="SpectatorDisabler.TowerTools/SpectatorDisabler.TowerTools.csproj" />
+</Solution>
