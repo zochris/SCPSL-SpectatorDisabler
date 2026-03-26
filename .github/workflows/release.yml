@@ -17,14 +17,16 @@ jobs:
 
     steps:
       - name: Download a Build Artifact
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: artifact
 
       - name: Create Release
-        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           tag_name: ${{ fromJSON(needs.build.outputs.gitversion).MajorMinorPatch }}
           name: Release ${{ fromJSON(needs.build.outputs.gitversion).MajorMinorPatch }}
           body: "${{ github.event.inputs.releaseMessage }}"
-          files: SpectatorDisabler-${{ fromJSON(needs.build.outputs.gitversion).AssemblySemVer }}.dll
+          files: |
+            SpectatorDisabler-Exiled-${{ fromJSON(needs.build.outputs.gitversion).AssemblySemVer }}.zip
+            SpectatorDisabler-LabApi-${{ fromJSON(needs.build.outputs.gitversion).AssemblySemVer }}.zip
