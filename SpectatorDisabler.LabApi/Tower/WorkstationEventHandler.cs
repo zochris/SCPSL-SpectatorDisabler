@@ -62,13 +62,11 @@ public class WorkstationEventHandler : CustomEventsHandler
 
         _workstation.TrackGivenItem(itemInInventory.Serial);
 
-        if (itemInInventory.Base is Firearm weaponInInventory)
+        if (itemInInventory.Base is Firearm weaponInInventory
+            && AttachmentsServerHandler.PlayerPreferences.TryGetValue(ev.Player.ReferenceHub, out var preferences)
+            && preferences.TryGetValue(itemInInventory.Type, out var items))
         {
-            if (AttachmentsServerHandler.PlayerPreferences.TryGetValue(ev.Player.ReferenceHub, out var preferences))
-            {
-                preferences.TryGetValue(itemInInventory.Type, out var items);
-                weaponInInventory.ApplyAttachmentsCode(items, true);
-            }
+            weaponInInventory.ApplyAttachmentsCode(items, true);
         }
     }
 

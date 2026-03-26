@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
-        <AssemblyTitle>SpectatorDisabler</AssemblyTitle>
+        <AssemblyTitle>SpectatorDisabler.Exiled</AssemblyTitle>
         <AssemblyVersion>0.1.0.0</AssemblyVersion>
         <AssemblyName>$(AssemblyTitle)-$(AssemblyVersion)</AssemblyName>
         <LangVersion>14</LangVersion>
@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ExMod.Exiled" Version="9.12.6"/>
+        <PackageReference Include="ExMod.Exiled" Version="9.13.2" />
     </ItemGroup>
 
     <ItemGroup>

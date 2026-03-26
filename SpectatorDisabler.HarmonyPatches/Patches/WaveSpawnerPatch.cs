@@ -36,12 +36,12 @@ internal static class WaveSpawnerPatch
 
         codeMatcher
             .MatchStartForward(new CodeMatch(OpCodes.Isinst))
-            .RemoveInstructions(codeMatcher.Remaining)
             .InsertAndAdvance(
                 new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
                 new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
                 new CodeInstruction(OpCodes.Ceq),
-                new CodeInstruction(OpCodes.Ret));
+                new CodeInstruction(OpCodes.Ret))
+            .RemoveInstructions(codeMatcher.Remaining);
 
         return codeMatcher.Instructions();
     }
