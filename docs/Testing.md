@@ -4,6 +4,7 @@ The following scenarios are expected to work and shoud be tested when
 making changes to the plugin.
 
 Some test require more than one player and are marked with a remark.
+In most cases a dummy can be used instead of a real player.
 
 ## Basic functionality
 
@@ -34,3 +35,6 @@ Some test require more than one player and are marked with a remark.
   - Requires 2 players
 - When starting/stopping SCP-1576 a message is displayed for all players in the tutorial role
 
+## SCP-1509 (Parang / Sword)
+- With a currently dead payer, killing a player with SCP-1509 will revive the dead player
+  - Requires 3 players or 1 player and 2 dummies

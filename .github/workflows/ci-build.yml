@@ -20,12 +20,12 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         fetch-depth: 0
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
       with:
         dotnet-version: 9.0.x
 
@@ -33,25 +33,49 @@ jobs:
       run: dotnet restore
 
     - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@e0d584e657c606912e8fd522aeed29025975705f
+      uses: gittools/actions/gitversion/setup@e0d584e657c606912e8fd522aeed29025975705f # v4.4.2
       with:
         versionSpec: '6.x'
 
     - name: Use GitVersion
-      uses: gittools/actions/gitversion/execute@e0d584e657c606912e8fd522aeed29025975705f
+      uses: gittools/actions/gitversion/execute@e0d584e657c606912e8fd522aeed29025975705f # v4.4.2
       id: gitversion
 
     - name: Use GitVersion to update project
-      uses: gittools/actions/gitversion/command@e0d584e657c606912e8fd522aeed29025975705f
+      uses: gittools/actions/gitversion/command@e0d584e657c606912e8fd522aeed29025975705f # v4.4.2
       with:
         arguments: '/updateprojectfiles'
 
     - name: Build
       run: dotnet build --no-restore -c Release
 
+    - name: Package EXILED
+      run: |
+        mkdir --parents dist/package-exiled/
+
+        cp SpectatorDisabler.Exiled/bin/Release/net48/SpectatorDisabler.Exiled-*.dll dist/package-exiled/
+        cp SpectatorDisabler.Exiled/bin/Release/net48/SpectatorDisabler.HarmonyPatches-*.dll dist/package-exiled/
+        cp SpectatorDisabler.Exiled/bin/Release/net48/SpectatorDisabler.TowerTools-*.dll dist/package-exiled/
+
+        cd dist/package-exiled
+        zip -r ../SpectatorDisabler-Exiled-${{ steps.gitversion.outputs.AssemblySemVer }}.zip .
+
+    - name: Package LabApi
+      run: |
+        mkdir --parents dist/package-labapi/plugins/
+        mkdir --parents dist/package-labapi/dependencies/
+
+        cp SpectatorDisabler.LabApi/bin/Release/net48/SpectatorDisabler.LabApi-*.dll dist/package-labapi/plugins/
+        cp SpectatorDisabler.LabApi/bin/Release/net48/SpectatorDisabler.HarmonyPatches-*.dll dist/package-labapi/plugins/
+        cp SpectatorDisabler.LabApi/bin/Release/net48/SpectatorDisabler.TowerTools-*.dll dist/package-labapi/plugins/
+        cp SpectatorDisabler.LabApi/bin/Release/net48/0Harmony.dll dist/package-labapi/dependencies/
+
+        cd dist/package-labapi
+        zip -r ../SpectatorDisabler-LabApi-${{ steps.gitversion.outputs.AssemblySemVer }}.zip .
+
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
       with:
         name: artifact
-        path: SpectatorDisabler/bin/Release/net48/SpectatorDisabler-${{ steps.gitversion.outputs.AssemblySemVer }}.dll
+        path: dist/*.zip
         if-no-files-found: error
