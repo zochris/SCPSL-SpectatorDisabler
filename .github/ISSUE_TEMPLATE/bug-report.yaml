@@ -25,7 +25,7 @@ body:
   - type: dropdown
     attributes:
       label: Framework
-      description: Select with plugin framework is used
+      description: Select which plugin framework is used
       options:
         - EXILED
         - LabAPI
