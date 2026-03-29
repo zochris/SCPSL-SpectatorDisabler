@@ -1,22 +1,34 @@
-# SCP:  Secret Labs - SpectatorDisabler
+# SCP: Secret Labs - SpectatorDisabler
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 When a player dies they are put into the tutorial role to prevent them from spectating the other players. This stops them from respawning with the knowledge of who is still alive and where they currently are.
 
 ## Installation
+There a two versions available one for the EXILED framework and one for plain LabAPI without dependencies on a third-party framework.
+Make sure to download the correct version for your server.
+
+### EXILED
 - Make sure you have the [EXILED framework](https://github.com/ExMod-Team/EXILED) installed
 - Download the latest [release](https://github.com/zochris/SCPSL-SpectatorDisabler/releases)
-- Drop the .dll into your `%appdata%\EXILED\Plugins` directory (`~/.config/EXILED/Plugins` if on Linux)
+- Drop all `.dll`s into your plugins directory
+  - **Windows:** `%appdata%\EXILED\Plugins`
+  - **Linux:** `~/.config/EXILED/Plugins`
+- Restart or reload your server
+
+### LabAPI
+- Download the latest [release](https://github.com/zochris/SCPSL-SpectatorDisabler/releases)
+- Drop the contents of the `dependecies` folder into your dependencies directory
+  - **Windows:** `%appdata%\SCP Secret Laboratory\LabAPI\dependencies\7777\`
+  - **Linux:**` ~/.config/SCP Secret Laboratory/LabAPI/dependencies/7777/`
+- Drop the contents of the `plugins` folder into your `plugins` directory
+  - **Windows:** `%appdata%\SCP Secret Laboratory\LabAPI\plugins\7777\`
+  - **Linux:**` ~/.config/SCP Secret Laboratory/LabAPI/plugins/7777/`
 - Restart or reload your server
 
 ## Configuration
 
-The following options can be configured in `%appdata%\EXILED\Configs\Plugins\spectator_disabler\7777.yml` or `~/.config/EXILED/Configs/Plugins/spectator_disabler/7777.yml`.
-
 | Name                    | Type    | Default Value | Description                                              |
 | ----------------------- | ------- | ------------- | -------------------------------------------------------- |
-| `is_enabled`            | Boolean | true          | Indicates whether the plugin is enabled or not           |
-| `debug`                 | Boolean | false         | Enables debug logging                                    |
 | `tower_window_blockers` | Boolean | false         | Enables blocking the windows in the tower on the surface |
 | `tower_workbench`       | Boolean | true          | Enables spawning a workbench and safe weapons in tower   |
 

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <RootNamespace>SpectatorDisabler.TowerTools</RootNamespace>
+        <AssemblyTitle>SpectatorDisabler.TowerTools</AssemblyTitle>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <AssemblyName>$(AssemblyTitle)-$(AssemblyVersion)</AssemblyName>
+        <LangVersion>14</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="Assembly-CSharp">
+            <HintPath>..\References\Assembly-CSharp-Publicized.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+            <HintPath>..\References\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+            <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+</Project>
