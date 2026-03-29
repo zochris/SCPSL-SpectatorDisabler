@@ -52,12 +52,12 @@ public class SpectatorDisabler : Plugin<Config>
     {
         CustomHandlersManager.RegisterEventsHandler(SpectatorDisablerHandler);
 
-        if (Config?.TowerWorkbench ?? false)
+        if (Config.TowerWorkbench)
         {
             CustomHandlersManager.RegisterEventsHandler(WorkstationEventHandler);
         }
 
-        if (Config?.TowerWindowBlockers ?? false)
+        if (Config.TowerWindowBlockers)
         {
             CustomHandlersManager.RegisterEventsHandler(WindowBlockerEventHandler);
         }
@@ -67,12 +67,12 @@ public class SpectatorDisabler : Plugin<Config>
     {
         CustomHandlersManager.UnregisterEventsHandler(SpectatorDisablerHandler);
 
-        if (Config?.TowerWorkbench ?? false)
+        if (Config.TowerWorkbench)
         {
             CustomHandlersManager.UnregisterEventsHandler(WorkstationEventHandler);
         }
 
-        if (Config?.TowerWindowBlockers ?? false)
+        if (Config.TowerWindowBlockers)
         {
             CustomHandlersManager.UnregisterEventsHandler(WindowBlockerEventHandler);
         }

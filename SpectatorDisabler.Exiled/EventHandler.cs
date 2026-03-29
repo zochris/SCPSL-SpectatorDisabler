@@ -1,29 +1,15 @@
-﻿using System.Linq;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Player;
-using MEC;
+﻿using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
 
 namespace SpectatorDisabler.Exiled;
 
 public static class EventHandler
 {
-    public static void OnPlayerSpawning(SpawnedEventArgs ev)
+    public static void OnPlayerChangingRole(ChangingRoleEventArgs ev)
     {
         if (ev.Player.Role == RoleTypeId.Spectator)
         {
-            Timing.CallDelayed(1, () => { ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.UseSpawnpoint); });
-        }
-
-        if (ev.Reason == SpawnReason.Revived)
-        {
-            var scp = Player.List.FirstOrDefault(player => player.Role == RoleTypeId.Scp049);
-
-            if (scp != null)
-            {
-                ev.Player.Position = scp.Position;
-            }
+            ev.NewRole = RoleTypeId.Tutorial;
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
 using Exiled.API.Features;
-using SpectatorDisabler.HarmonyPatches;
 using SpectatorDisabler.Exiled.Tower;
+using SpectatorDisabler.HarmonyPatches;
 using Player = Exiled.Events.Handlers.Player;
 using Server = Exiled.Events.Handlers.Server;
 using Item = Exiled.Events.Handlers.Item;
@@ -49,7 +49,7 @@ public class SpectatorDisabler : Plugin<Config>
     {
         Log.Debug("Setting up event handler");
 
-        Player.Spawned += EventHandler.OnPlayerSpawning;
+        Player.ChangingRole += EventHandler.OnPlayerChangingRole;
 
         if (Config.TowerWorkbench)
         {
@@ -67,7 +67,7 @@ public class SpectatorDisabler : Plugin<Config>
 
     private void UnregisterEvents()
     {
-        Player.Spawned -= EventHandler.OnPlayerSpawning;
+        Player.ChangingRole -= EventHandler.OnPlayerChangingRole;
 
         if (Config.TowerWorkbench)
         {
