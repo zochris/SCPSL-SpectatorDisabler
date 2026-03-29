@@ -19,10 +19,15 @@ internal static class HumanVoiceModuleValidateReceivePatch
     ///         {
     ///             return VoiceChatChannel.Scp1576;
     ///         }
-    /// 
+    ///
     ///         if (this.Owner.GetRoleId() == RoleTypeId.Tutorial && channel == VoiceChatChannel.Spectator)
     ///         {
     ///             return VoiceChatChannel.Proximity;
+    ///         }
+    ///
+    ///         if (this.Owner.GetRoleId() != RoleTypeId.Tutorial && channel == VoiceChatChannel.Spectator)
+    ///         {
+    ///             return VoiceChatChannel.Scp1576;
     ///         }
     ///     </code>
     /// </summary>
@@ -33,11 +38,12 @@ internal static class HumanVoiceModuleValidateReceivePatch
     private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
         var tutorialChatCheckLabel = generator.DefineLabel();
+        var tutorialToScpUserCheckLabel = generator.DefineLabel();
 
         var codeMatcher = new CodeMatcher(instructions, generator);
 
         codeMatcher
-            .MatchStartForward()
+            .Start()
             .CreateLabel(out var originalCode)
             .InsertAndAdvance(
                 // Allows Tutorials to listen to Scp1576 channel
@@ -67,7 +73,27 @@ internal static class HumanVoiceModuleValidateReceivePatch
                 new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PlayerRolesUtils), nameof(PlayerRolesUtils.GetRoleId))),
                 new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
                 new CodeInstruction(OpCodes.Ceq),
-                new CodeInstruction(OpCodes.Brfalse_S, originalCode),
+                new CodeInstruction(OpCodes.Brfalse_S, tutorialToScpUserCheckLabel),
+
+                // channel == VoiceChatChannel.Spectator)
+                new CodeInstruction(OpCodes.Ldarg_2), // channel
+                new CodeInstruction(OpCodes.Ldc_I4_S, (int)VoiceChatChannel.Spectator),
+                new CodeInstruction(OpCodes.Ceq),
+                new CodeInstruction(OpCodes.Brfalse_S, tutorialToScpUserCheckLabel),
+
+                // return VoiceChatChannel.Proximity
+                new CodeInstruction(OpCodes.Ldc_I4_S, (int)VoiceChatChannel.Proximity),
+                new CodeInstruction(OpCodes.Ret)
+            )
+            .InsertAndAdvance(
+                // Allows non-Tutorials to hear Tutorials over SCP-1576
+                // (this.Owner.GetRoleId() != RoleTypeId.Tutorial &&
+                new CodeInstruction(OpCodes.Ldarg_0).WithLabels(tutorialToScpUserCheckLabel), // this
+                new CodeInstruction(OpCodes.Call, AccessTools.PropertyGetter(typeof(VoiceModuleBase), nameof(VoiceModuleBase.Owner))),
+                new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PlayerRolesUtils), nameof(PlayerRolesUtils.GetRoleId))),
+                new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
+                new CodeInstruction(OpCodes.Ceq),
+                new CodeInstruction(OpCodes.Brtrue_S, originalCode),
 
                 // channel == VoiceChatChannel.Spectator)
                 new CodeInstruction(OpCodes.Ldarg_2), // channel
@@ -75,8 +101,8 @@ internal static class HumanVoiceModuleValidateReceivePatch
                 new CodeInstruction(OpCodes.Ceq),
                 new CodeInstruction(OpCodes.Brfalse_S, originalCode),
 
-                // return VoiceChatChannel.Proximity
-                new CodeInstruction(OpCodes.Ldc_I4_S, (int)VoiceChatChannel.Proximity),
+                // return VoiceChatChannel.Scp1576
+                new CodeInstruction(OpCodes.Ldc_I4_S, (int)VoiceChatChannel.Scp1576),
                 new CodeInstruction(OpCodes.Ret)
             );
 

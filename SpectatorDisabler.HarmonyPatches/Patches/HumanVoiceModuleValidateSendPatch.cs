@@ -29,7 +29,7 @@ internal static class HumanVoiceModuleValidateSendPatch
     {
         var codeMatcher = new CodeMatcher(instructions, generator);
 
-        codeMatcher.MatchStartForward()
+        codeMatcher.Start()
             .CreateLabel(out var returnLabel)
             .InsertAndAdvance(
                 // this.Owner.GetRoleId() == RoleTypeId.Tutorial

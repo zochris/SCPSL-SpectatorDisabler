@@ -18,6 +18,9 @@
         <Reference Include="Assembly-CSharp">
             <HintPath>..\References\Assembly-CSharp-Publicized.dll</HintPath>
         </Reference>
+        <Reference Include="Mirror">
+          <HintPath>..\References\Mirror.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>
         </Reference>
