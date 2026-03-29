@@ -22,11 +22,18 @@ body:
       description: Version of the game
     validations:
       required: true
-  - type: input
-    id: exiled-version
+  - type: dropdown
     attributes:
-      label: EXILED version
-      description: Version of the EXILED framework
+      label: Framework
+      description: Select with plugin framework is used
+      options:
+        - EXILED
+        - LabAPI
+  - type: input
+    id: framework-version
+    attributes:
+      label: Framework version
+      description: Which version of the framework (EXILED / LabAPI) is used
   - type: input
     id: plugin-version
     attributes:
