@@ -15,9 +15,6 @@
         <Reference Include="Assembly-CSharp">
             <HintPath>..\References\Assembly-CSharp-Publicized.dll</HintPath>
         </Reference>
-        <Reference Include="Assembly-CSharp-firstpass">
-            <HintPath>..\References\Assembly-CSharp-firstpass.dll</HintPath>
-        </Reference>
         <Reference Include="Mirror">
             <HintPath>..\References\Mirror.dll</HintPath>
         </Reference>
@@ -38,7 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Northwood.LabAPI" Version="1.1.6.1" />
+        <PackageReference Include="Northwood.LabAPI" Version="1.1.6.1"/>
     </ItemGroup>
 
 </Project>

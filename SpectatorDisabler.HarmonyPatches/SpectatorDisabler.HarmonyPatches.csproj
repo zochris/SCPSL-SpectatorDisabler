@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+        <PackageReference Include="Lib.Harmony" Version="2.2.2"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -19,7 +19,7 @@
             <HintPath>..\References\Assembly-CSharp-Publicized.dll</HintPath>
         </Reference>
         <Reference Include="Mirror">
-          <HintPath>..\References\Mirror.dll</HintPath>
+            <HintPath>..\References\Mirror.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
             <HintPath>..\References\UnityEngine.CoreModule.dll</HintPath>

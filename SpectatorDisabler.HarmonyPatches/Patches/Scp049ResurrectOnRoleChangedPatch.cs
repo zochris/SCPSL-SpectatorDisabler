@@ -21,14 +21,15 @@ internal static class Scp049ResurrectOnRoleChangedPatch
     }
 
     /// <summary>
-    ///     This transpiler adds the following condition:
+    ///     This repaces the following condition in the lambda function that gets called when PlayerRoleManager.OnRoleChanged
+    ///     gets fired:
     ///     <code>
-    ///         if (newRole.RoleTypeId == RoleTypeId.Tutorial)
-    ///             return;
+    ///         if (prevRole is ZombieRole &amp;&amp; newRole is SpectatorRole)
     ///     </code>
-    ///     to the lambda function that gets called when PlayerRoleManager.OnRoleChanged gets fired.
-    ///     This means that the DeadZombies is not modified when changing to tutorial, allowing
-    ///     SCP-049 to keep track of zombies that were just killed.
+    ///     With the following:
+    ///     <code>
+    ///         if (prevRole is ZombieRole &amp;&amp; newRole.RoleTypeId == RoleTypeId.Tutorial)
+    ///     </code>
     /// </summary>
     /// <param name="instructions">
     ///     The <see cref="CodeInstruction" />s of the original
@@ -46,19 +47,19 @@ internal static class Scp049ResurrectOnRoleChangedPatch
         var codeMatcher = new CodeMatcher(instructions, generator);
 
         codeMatcher
-            .MatchStartForward(
-                new CodeMatch(OpCodes.Call),
-                new CodeMatch(OpCodes.Brtrue_S),
-                new CodeMatch(OpCodes.Ret))
-            .CreateLabel(out var originalCode)
+            .MatchEndForward(
+                new CodeMatch(OpCodes.Ldarg_2),
+                new CodeMatch(OpCodes.Isinst),
+                new CodeMatch(OpCodes.Brfalse_S),
+                new CodeMatch(OpCodes.Ldarg_3)
+            )
+            .Advance(1)
             .InsertAndAdvance(
-                new CodeInstruction(OpCodes.Ldarg_3),
                 new CodeInstruction(OpCodes.Callvirt, AccessTools.PropertyGetter(typeof(PlayerRoleBase), nameof(PlayerRoleBase.RoleTypeId))),
                 new CodeInstruction(OpCodes.Ldc_I4_S, (sbyte)RoleTypeId.Tutorial),
-                new CodeInstruction(OpCodes.Ceq),
-                new CodeInstruction(OpCodes.Brfalse, originalCode),
-                new CodeInstruction(OpCodes.Ret)
-            );
+                new CodeInstruction(OpCodes.Ceq)
+            )
+            .RemoveInstruction();
 
         return codeMatcher.Instructions();
     }

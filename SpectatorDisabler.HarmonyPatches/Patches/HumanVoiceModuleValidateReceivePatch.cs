@@ -19,12 +19,12 @@ internal static class HumanVoiceModuleValidateReceivePatch
     ///         {
     ///             return VoiceChatChannel.Scp1576;
     ///         }
-    ///
+    /// 
     ///         if (this.Owner.GetRoleId() == RoleTypeId.Tutorial && channel == VoiceChatChannel.Spectator)
     ///         {
     ///             return VoiceChatChannel.Proximity;
     ///         }
-    ///
+    /// 
     ///         if (this.Owner.GetRoleId() != RoleTypeId.Tutorial && channel == VoiceChatChannel.Spectator)
     ///         {
     ///             return VoiceChatChannel.Scp1576;
