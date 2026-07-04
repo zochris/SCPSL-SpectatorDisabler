@@ -9,6 +9,10 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    groups:
+      gittools-action:
+        patterns:
+          - "gittools/action*"
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
