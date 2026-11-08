@@ -22,7 +22,7 @@ public class SpectatorDisabler : Plugin<Config>
 
     public override string Name => "SpectatorDisabler";
 
-    public override Version RequiredExiledVersion { get; } = new(9, 13, 2);
+    public override Version RequiredExiledVersion { get; } = new(9, 15, 2);
 
     public override Version Version { get; } = Assembly.GetExecutingAssembly().GetName().Version;
 
